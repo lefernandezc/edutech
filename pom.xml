@@ -16,6 +16,7 @@
     <modules>
         <module>msvc-boleta</module>
         <module>msvc-sucursal</module>
+        <module>msvc-inventario</module>
     </modules>
 
 
