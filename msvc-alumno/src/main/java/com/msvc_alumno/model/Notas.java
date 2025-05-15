@@ -7,5 +7,5 @@ import lombok.*;
 @AllArgsConstructor @NoArgsConstructor
 public class Notas {
 
-    private Integer nota
+    private Integer nota;
 }
