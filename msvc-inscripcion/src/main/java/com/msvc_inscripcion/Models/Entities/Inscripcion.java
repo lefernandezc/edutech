@@ -17,10 +17,10 @@ public class Inscripcion {
     private Long idInscripcion;
 
     @Column(nullable = false)
-    @NotBlank(message = "El nombre de la asignatura no debe estar vacio")
-    private String nombreInscripcion;
+    @NotBlank(message = "El costo no puede estar vacio")
+    private Integer costoInscripcion;
 
     @Column(nullable = false)
-    @NotBlank(message = "El costo no debe estar vacio")
-    private Integer costoInscripcion;
+    @NotBlank(message = "El campo id-alumno no puede ser vacio")
+    private Long idAlumno;
 }
