@@ -40,5 +40,14 @@ public class AlumnoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.alumnoService.save(alumno));
         }
 
+        @GetMapping("/inscripcion/{id}")
+    public ResponseEntity<List<Alumno>> findByIdInscripcion(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(this.alumnoService.findByInscripcionId(id));
+        }
+
+        @GetMapping("/notas/{id")
+    public ResponseEntity<List<Alumno>> findByIdNotas(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(this.alumnoService.findByNotasId(id));
+        }
 
 }
