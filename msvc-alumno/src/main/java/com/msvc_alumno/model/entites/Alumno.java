@@ -31,7 +31,7 @@ public class Alumno {
     @NotNull(message = "El mensaje de ide_notas no puede estar vacio")
     private Long idNotas;
 
-    @Column(name = "id_inscripcion")
+    @Column(name = "id_inscripcion", nullable = false)
     @NotNull(message = "El campo de id_inscripcion no puede estar vacio")
     private Long idInscripcion;
 

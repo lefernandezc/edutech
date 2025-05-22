@@ -10,5 +10,6 @@ public interface AlumnoService {
     List<AlumnoDTO> findAll();
     Alumno findById(Long id);
     Alumno save(Alumno alumno);
-
+    List<Alumno> findByInscripcionId(Long inscripcionId);
+    List<Alumno> findByNotasId(Long notasId);
 }
