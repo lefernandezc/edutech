@@ -55,6 +55,7 @@ public class AlumnoServiceImpl implements AlumnoService {
             NotasDTO notasDTO = new NotasDTO();
             notasDTO.setNotas(notas.getNota());
 
+
         }).toList();
     }
 
@@ -77,6 +78,15 @@ public class AlumnoServiceImpl implements AlumnoService {
     }
 
     @Override
-    public List<Alumno> findByInscripcion(Long inscripcion){return this.alumnoRepository.findByInscripcion(inscripcionId); }
+    public List<Alumno> findByInscripcionId(Long inscripcionId) {
+        return this.alumnoRepository.findByIdInscripcion(inscripcionId);;
+    }
+
+    @Override
+    public List<Alumno> findByNotasId(Long notasId) {
+
+        return this.alumnoRepository.findByIdNotas(notasId);
+    }
+
 
 }
