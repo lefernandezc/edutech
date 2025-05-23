@@ -1,6 +1,8 @@
 package com.msvc_inscripcion.Services;
 
 import com.msvc_inscripcion.Clients.AlumnoClientRest;
+import com.msvc_inscripcion.Clients.NotasClientRest;
+import com.msvc_inscripcion.Clients.ProfesorClientRest;
 import com.msvc_inscripcion.Dtos.AlumnoDTO;
 import com.msvc_inscripcion.Dtos.InscripcionDTO;
 import com.msvc_inscripcion.Exceptions.InscripcionException;
@@ -21,6 +23,12 @@ public class InscripcionServiceImpl implements InscripcionService {
 
     @Autowired
     private AlumnoClientRest alumnoClientRest;
+
+    @Autowired
+    private NotasClientRest notasClientRest;
+
+    @Autowired
+    private ProfesorClientRest profesorClientRest;
 
     @Override
     public List<InscripcionDTO> findAll(){
