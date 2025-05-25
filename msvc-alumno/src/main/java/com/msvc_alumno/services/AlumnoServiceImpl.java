@@ -80,9 +80,9 @@ public class AlumnoServiceImpl implements AlumnoService {
                 try {
                     List<Alumno> alumnos = this.alumnoRepository.findByIdNotas(notas.getIdAlumno());
                     if (alumnos != null && !alumnos.isEmpty()) {
-                        System.out.println("alumno");
+                        System.out.println("Notas");
                     } else {
-                        throw new RuntimeException("Alumno not found");
+                        throw new RuntimeException("Notas not found");
                     }
                 } catch (FeignException ex) {
                     throw new RuntimeException("Feign client error", ex);
