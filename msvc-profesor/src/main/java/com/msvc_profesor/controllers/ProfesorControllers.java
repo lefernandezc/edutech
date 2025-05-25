@@ -7,14 +7,16 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Repository
+@RestController
 @RequestMapping("/api/v1/profesor")
+@Validated
 public class ProfesorControllers {
+
     @Autowired
     private ProfesorService profesorService;
 
@@ -28,7 +30,7 @@ public class ProfesorControllers {
         return ResponseEntity.status(HttpStatus.OK).body(this.profesorService.findById(id));
     }
 
-    @GetMapping
+    @PostMapping
     public ResponseEntity<Profesor> save(@RequestBody @Valid Profesor profesor){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.profesorService.save(profesor));
     }

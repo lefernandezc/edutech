@@ -1,16 +1,27 @@
 package com.msvc_notas.Models.Entities;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
+@Entity
+@Table(name= "NOTAS")
+@Getter @Setter @ToString
+@NoArgsConstructor @AllArgsConstructor
 
 public class Notas {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name= "id_notas")
     private Long idNotas;
+
+    @Column(nullable = false)
+    @NotBlank(message = "La nota no puede estar vacio")
     private Integer nota;
+
+    @Column(nullable = false)
+    @NotNull(message = "El campo id-alumno no puede ser vacio")
     private Long idAlumno;
 }
