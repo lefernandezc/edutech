@@ -6,6 +6,7 @@ import lombok.*;
 @Getter @Setter @ToString
 @NoArgsConstructor @AllArgsConstructor
 public class Alumno {
+
     private Long idAlumno;
     private String run;
     private String nombre;
