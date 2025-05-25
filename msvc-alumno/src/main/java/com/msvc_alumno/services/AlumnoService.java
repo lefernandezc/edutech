@@ -1,15 +1,16 @@
 package com.msvc_alumno.services;
 
 
-import com.msvc_alumno.dtos.AlumnoDTO;
+import com.msvc_alumno.dtos.InscripcionDTO;
+import com.msvc_alumno.dtos.NotasDTO;
 import com.msvc_alumno.model.entites.Alumno;
 
 import java.util.List;
 
 public interface AlumnoService {
-    List<AlumnoDTO> findAll();
+    List<Alumno> findAll();
     Alumno findById(Long id);
     Alumno save(Alumno alumno);
-    List<Alumno> findByInscripcionId(Long inscripcionId);
-    List<Alumno> findByNotasId(Long notasId);
+    List<InscripcionDTO> findByInscripcionId(Long idAlumno);
+    List<NotasDTO> findByNotasId(Long idAlumno);
 }

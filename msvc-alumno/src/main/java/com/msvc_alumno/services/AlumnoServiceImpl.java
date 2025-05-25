@@ -2,7 +2,6 @@ package com.msvc_alumno.services;
 
 import com.msvc_alumno.clients.IncripcionClientRest;
 import com.msvc_alumno.clients.NotasClientRest;
-import com.msvc_alumno.dtos.AlumnoDTO;
 import com.msvc_alumno.dtos.InscripcionDTO;
 import com.msvc_alumno.dtos.NotasDTO;
 import com.msvc_alumno.exceptions.AlumnoException;
@@ -29,64 +28,74 @@ public class AlumnoServiceImpl implements AlumnoService {
     private IncripcionClientRest incripcionClientRest;
 
     @Override
-    public List<AlumnoDTO> findAll() {
-
-        return this.alumnoRepository.findAll().stream().map(alumno -> {
-
-            Inscripcion inscripcion = null;
-            try {
-                inscripcion = this.incripcionClientRest.findById(alumno.getIdInscripcion());
-            } catch (FeignException.FeignClientException ex) {
-                throw new AlumnoException("El alumno buscado no existe");
-            }
-
-
-            Notas notas = null;
-            try {
-                notas = this.notasClientRest.findById(alumno.getIdNotas());
-            } catch (FeignException ex) {
-                throw new AlumnoException("Las notas no se encuentra en la base de datos");
-            }
-
-            InscripcionDTO inscripcionDTO = new InscripcionDTO();
-            inscripcionDTO.setCosto(inscripcion.getCosto());
-            inscripcionDTO.setNombreAsignatura(inscripcion.getNombreAsignatura());
-
-            NotasDTO notasDTO = new NotasDTO();
-            notasDTO.setNotas(notas.getNota());
-
-
-        }).toList();
+    public List<Alumno> findAll() {
+        return this.alumnoRepository.findAll();
     }
 
     @Override
-    public Alumno findById(Long id) {
+    public Alumno findById(Long id){
         return this.alumnoRepository.findById(id).orElseThrow(
-                () -> new AlumnoException("el alumno con id: "+id+ "no se encuentra en la base de datos")
+                () -> new AlumnoException("El alumno con id "+id+" no se encuentra en la base de datos")
         );
     }
+    @Override
+    public Alumno save(Alumno alumno){
+            return alumnoRepository.save(alumno);
+    }
 
     @Override
-    public Alumno save(Alumno alumno) {
-        try{
-            Inscripcion inscripcion = this.incripcionClientRest.findById(alumno.getIdInscripcion());
-            Notas notas = this.notasClientRest.findById(alumno.getIdNotas());
-        }catch (FeignException ex){
-            throw new AlumnoException("el Existe el problema de la asociacion");
+    public List<InscripcionDTO> findByInscripcionId(Long idAlumno) {
+        Alumno alumno = this.findById(idAlumno);
+        List<Inscripcion> inscripciones = this.incripcionClientRest.findByIdAlumno(alumno.getIdAlumno());
+
+        if(!inscripciones.isEmpty()) {
+            return inscripciones.stream().map(inscripcion -> {
+                InscripcionDTO dto = new InscripcionDTO();
+                try {
+                    List<Alumno> alumnos = this.alumnoRepository.findByIdInscripcion(inscripcion.getIdAlumno());
+                    if (alumnos != null && !alumnos.isEmpty()) {
+                        System.out.println("alumno");
+                    } else {
+                        throw new RuntimeException("Alumno not found");
+                    }
+                } catch (FeignException ex) {
+                    throw new RuntimeException("Feign client error", ex);
+                }
+
+                return dto;
+            }).toList();
         }
-        return this.alumnoRepository.save(alumno);
+        return List.of();
     }
 
     @Override
-    public List<Alumno> findByInscripcionId(Long inscripcionId) {
-        return this.alumnoRepository.findByIdInscripcion(inscripcionId);;
+    public List<NotasDTO> findByNotasId(Long idAlumno){
+        Alumno alumno = this.findById(idAlumno);
+        Notas notas = this.notasClientRest.findByIdAlumno(alumno.getIdAlumno());
+        List<Notas> listaNotas = this.notasClientRest.findAllByIdNotas(notas.getIdNotas());
+
+        if (listaNotas != null && !listaNotas.isEmpty()) {
+            return listaNotas.stream().map(nota -> {
+                NotasDTO dto = new NotasDTO();
+                try {
+                    List<Alumno> alumnos = this.alumnoRepository.findByIdNotas(notas.getIdAlumno());
+                    if (alumnos != null && !alumnos.isEmpty()) {
+                        System.out.println("alumno");
+                    } else {
+                        throw new RuntimeException("Alumno not found");
+                    }
+                } catch (FeignException ex) {
+                    throw new RuntimeException("Feign client error", ex);
+                }
+
+                return dto;
+            }).toList();
+        }
+        return List.of();
     }
-
-    @Override
-    public List<Alumno> findByNotasId(Long notasId) {
-
-        return this.alumnoRepository.findByIdNotas(notasId);
-    }
-
-
 }
+
+
+
+
+

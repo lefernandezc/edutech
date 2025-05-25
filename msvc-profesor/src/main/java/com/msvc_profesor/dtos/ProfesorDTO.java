@@ -11,4 +11,6 @@ public class ProfesorDTO {
     private String nombre;
     private String correo;
     private String asignatura;
+    private AlumnoDTO alumno;
+    private NotasDTO notas;
 }

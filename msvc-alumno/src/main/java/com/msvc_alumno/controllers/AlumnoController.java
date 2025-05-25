@@ -1,6 +1,8 @@
 package com.msvc_alumno.controllers;
 
 import com.msvc_alumno.dtos.AlumnoDTO;
+import com.msvc_alumno.dtos.InscripcionDTO;
+import com.msvc_alumno.dtos.NotasDTO;
 import com.msvc_alumno.model.entites.Alumno;
 import com.msvc_alumno.services.AlumnoService;
 import jakarta.validation.Valid;
@@ -24,7 +26,7 @@ public class AlumnoController {
     private AlumnoService alumnoService;
 
     @GetMapping
-    public ResponseEntity<List<AlumnoDTO>> findAll() {
+    public ResponseEntity<List<Alumno>> findAll() {
         return ResponseEntity.status(HttpStatus.OK).body(this.alumnoService.findAll());
 
     }
@@ -41,12 +43,12 @@ public class AlumnoController {
         }
 
         @GetMapping("/inscripcion/{id}")
-    public ResponseEntity<List<Alumno>> findByIdInscripcion(@PathVariable Long id){
+    public ResponseEntity<List<InscripcionDTO>> findByIdInscripcion(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(this.alumnoService.findByInscripcionId(id));
         }
 
-        @GetMapping("/notas/{id")
-    public ResponseEntity<List<Alumno>> findByIdNotas(@PathVariable Long id){
+        @GetMapping("/notas/{id}")
+    public ResponseEntity<List<NotasDTO>> findByIdNotas(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(this.alumnoService.findByNotasId(id));
         }
 

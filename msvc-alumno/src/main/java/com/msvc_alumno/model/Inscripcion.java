@@ -8,6 +8,7 @@ import lombok.*;
 public class Inscripcion {
 
     private Long idInscripcion;
-    private String nombreAsignatura;
-    private Integer costo;
+    private String costoInscripcion;
+    private Long idAlumno;
+
 }

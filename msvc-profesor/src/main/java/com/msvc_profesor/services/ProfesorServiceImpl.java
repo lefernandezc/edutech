@@ -55,6 +55,15 @@ public class ProfesorServiceImpl implements ProfesorService{
             NotasDTO notasDTO= new NotasDTO();
             notasDTO.setNotas(notas.getNota());
 
+            ProfesorDTO profesorDTO = new ProfesorDTO();
+            profesorDTO.setNombre(profesor.getNombre());
+            profesorDTO.setAsignatura(profesor.getAsignatura());
+            profesorDTO.setRun(profesor.getCorreo());
+            profesorDTO.setCorreo(profesor.getCorreo());
+            profesorDTO.setAlumno(alumnoDTO);
+            profesorDTO.setNotas(notasDTO);
+
+            return profesorDTO;
         }).toList();
     }
 
