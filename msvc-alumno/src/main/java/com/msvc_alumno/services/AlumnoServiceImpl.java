@@ -2,8 +2,10 @@ package com.msvc_alumno.services;
 
 import com.msvc_alumno.clients.IncripcionClientRest;
 import com.msvc_alumno.clients.NotasClientRest;
+import com.msvc_alumno.clients.ProfesorClientRest;
 import com.msvc_alumno.dtos.InscripcionDTO;
 import com.msvc_alumno.dtos.NotasDTO;
+import com.msvc_alumno.dtos.ProfesorDTO;
 import com.msvc_alumno.exceptions.AlumnoException;
 import com.msvc_alumno.model.Inscripcion;
 import com.msvc_alumno.model.Notas;
@@ -26,6 +28,9 @@ public class AlumnoServiceImpl implements AlumnoService {
 
     @Autowired
     private IncripcionClientRest incripcionClientRest;
+
+    @Autowired
+    private ProfesorClientRest profesorClientRest;
 
     @Override
     public List<Alumno> findAll() {
@@ -70,6 +75,32 @@ public class AlumnoServiceImpl implements AlumnoService {
 
     @Override
     public List<NotasDTO> findByNotasId(Long idAlumno){
+        Alumno alumno = this.findById(idAlumno);
+        Notas notas = this.notasClientRest.findByIdAlumno(alumno.getIdAlumno());
+        List<Notas> listaNotas = this.notasClientRest.findAllByIdNotas(notas.getIdNotas());
+
+        if (listaNotas != null && !listaNotas.isEmpty()) {
+            return listaNotas.stream().map(nota -> {
+                NotasDTO dto = new NotasDTO();
+                try {
+                    List<Alumno> alumnos = this.alumnoRepository.findByIdNotas(notas.getIdAlumno());
+                    if (alumnos != null && !alumnos.isEmpty()) {
+                        System.out.println("Notas");
+                    } else {
+                        throw new RuntimeException("Notas not found");
+                    }
+                } catch (FeignException ex) {
+                    throw new RuntimeException("Feign client error", ex);
+                }
+
+                return dto;
+            }).toList();
+        }
+        return List.of();
+    }
+
+    @Override
+    public List<ProfesorDTO> findByProfesor(Long idAlumno){
         Alumno alumno = this.findById(idAlumno);
         Notas notas = this.notasClientRest.findByIdAlumno(alumno.getIdAlumno());
         List<Notas> listaNotas = this.notasClientRest.findAllByIdNotas(notas.getIdNotas());
