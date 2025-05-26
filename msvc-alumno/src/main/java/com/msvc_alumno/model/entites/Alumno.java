@@ -36,4 +36,8 @@ public class Alumno {
     @NotNull(message = "El campo de id_inscripcion no puede estar vacio")
     private Long idInscripcion;
 
+    @Column(nullable = false)
+    @NotNull(message = "El campos id profesor no puede estar vacio")
+    private Long idProfesor;
+
 }

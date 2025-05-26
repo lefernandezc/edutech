@@ -18,7 +18,7 @@ public class Notas {
     private Long idNotas;
 
     @Column(nullable = false)
-    @NotBlank(message = "La nota no puede estar vacio")
+    @NotNull(message = "La nota no puede estar vacio")
     private Integer nota;
 
     @Column(nullable = false)

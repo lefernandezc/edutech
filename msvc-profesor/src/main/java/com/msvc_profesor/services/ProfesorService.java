@@ -10,6 +10,5 @@ public interface ProfesorService {
     List<ProfesorDTO> findAll();
     Profesor findById(Long id);
     Profesor save(Profesor profesor);
-    List<Profesor> findByAlumnoId(Long alumnoid);
     List<Profesor> findByNotasId(Long notasid);
 }
