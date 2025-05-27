@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface NotasClientRest {
 
     @GetMapping("/{id}")
-    Notas findById(@PathVariable Long id);
+    Notas findByIdNotas(@PathVariable Long id);
 }

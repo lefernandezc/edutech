@@ -4,7 +4,6 @@ import com.msvc_inscripcion.Clients.AlumnoClientRest;
 import com.msvc_inscripcion.Clients.NotasClientRest;
 import com.msvc_inscripcion.Clients.ProfesorClientRest;
 import com.msvc_inscripcion.Dtos.AlumnoDTO;
-import com.msvc_inscripcion.Dtos.InscripcionDTO;
 import com.msvc_inscripcion.Exceptions.InscripcionException;
 import com.msvc_inscripcion.Models.Alumno;
 import com.msvc_inscripcion.Models.Entities.Inscripcion;
@@ -31,26 +30,8 @@ public class InscripcionServiceImpl implements InscripcionService {
     private ProfesorClientRest profesorClientRest;
 
     @Override
-    public List<InscripcionDTO> findAll(){
-        return this.inscripcionRepository.findAll().stream().map(inscripcion ->{
-
-            Alumno alumno = null;
-            try{
-                alumno = this.alumnoClientRest.findById(inscripcion.getIdAlumno());
-            }catch (FeignException ex){
-                throw new InscripcionException("Alumnno buscado no exite");
-            }
-
-            AlumnoDTO alumnoDTO = new AlumnoDTO();
-            alumnoDTO.setCorreo(alumno.getCorreo());
-            alumnoDTO.setRun(alumno.getRun());
-            alumnoDTO.setNombre(alumno.getNombre());
-
-            InscripcionDTO inscripcionDTO = new InscripcionDTO();
-            inscripcionDTO.setAlumno(alumnoDTO);
-            return inscripcionDTO;
-
-        }).toList();
+    public List<Inscripcion> findAll(){
+        return this.inscripcionRepository.findAll();
     }
 
     @Override
@@ -62,16 +43,31 @@ public class InscripcionServiceImpl implements InscripcionService {
 
     @Override
     public Inscripcion save(Inscripcion inscripcion){
-        try{
-            Alumno alumno = this.alumnoClientRest.findById(inscripcion.getIdAlumno());
-        }catch (FeignException ex) {
-            throw new InscripcionException("Existe problemas con la asoción inscripcion alumno");
-        }
-        return this.inscripcionRepository.save(inscripcion);
+        return inscripcionRepository.save(inscripcion);
     }
 
     @Override
-    public List<Inscripcion> findByAlumnoId (Long alumnoId){
-        return this.inscripcionRepository.findByIdAlumno(alumnoId);
+    public List<AlumnoDTO> findByAlumnoId(Long idInscripcion){
+        Inscripcion inscripcion = this.findById(idInscripcion);
+        Alumno alumno = this.alumnoClientRest.findByIdInscripcion(inscripcion.getIdInscripcion());
+        List<Alumno> alumnos = this.alumnoClientRest.findAllByIdAlumno(alumno.getIdAlumnno());
+
+        if(alumnos != null && !alumnos.isEmpty()){
+            return alumnos.stream().map(alumn->{
+                AlumnoDTO dto = new AlumnoDTO();
+                try{
+                    List<Inscripcion> inscripciones = this.inscripcionRepository.findByIdAlumno(alumn.getIdInscripcion());
+                    if(inscripciones != null && !inscripciones.isEmpty()){
+                        System.out.println("Alumno");
+                    }else{
+                        throw new RuntimeException("alumno no encontrado");
+                    }
+                }catch (FeignException ex){
+                    throw new RuntimeException("Feign client error", ex);
+                }
+                return dto;
+            }).toList();
+        }
+        return List.of();
     }
 }

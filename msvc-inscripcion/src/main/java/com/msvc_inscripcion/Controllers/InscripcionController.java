@@ -1,5 +1,6 @@
 package com.msvc_inscripcion.Controllers;
 
+import com.msvc_inscripcion.Dtos.AlumnoDTO;
 import com.msvc_inscripcion.Dtos.InscripcionDTO;
 import com.msvc_inscripcion.Models.Entities.Inscripcion;
 import com.msvc_inscripcion.Services.InscripcionService;
@@ -21,7 +22,7 @@ public class InscripcionController {
     private InscripcionService inscripcionService;
 
     @GetMapping
-    public ResponseEntity<List<InscripcionDTO>> findAll(){
+    public ResponseEntity<List<Inscripcion>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(this.inscripcionService.findAll());
     }
 
@@ -35,8 +36,8 @@ public class InscripcionController {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.inscripcionService.save(inscripcion));
     }
 
-    @GetMapping("/inscripcion/{id}")
-    public ResponseEntity<List<Inscripcion>> findByIdAlumno(@PathVariable Long id){
+    @GetMapping("/alumno/{id}")
+    public ResponseEntity<List<AlumnoDTO>> findByIdAlumno(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(this.inscripcionService.findByAlumnoId(id));
     }
 }

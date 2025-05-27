@@ -9,6 +9,7 @@ import com.msvc_alumno.dtos.ProfesorDTO;
 import com.msvc_alumno.exceptions.AlumnoException;
 import com.msvc_alumno.model.Inscripcion;
 import com.msvc_alumno.model.Notas;
+import com.msvc_alumno.model.Profesor;
 import com.msvc_alumno.model.entites.Alumno;
 import com.msvc_alumno.repositories.AlumnoRepository;
 import feign.FeignException;
@@ -45,7 +46,7 @@ public class AlumnoServiceImpl implements AlumnoService {
     }
     @Override
     public Alumno save(Alumno alumno){
-            return alumnoRepository.save(alumno);
+        return alumnoRepository.save(alumno);
     }
 
     @Override
@@ -83,7 +84,7 @@ public class AlumnoServiceImpl implements AlumnoService {
             return listaNotas.stream().map(nota -> {
                 NotasDTO dto = new NotasDTO();
                 try {
-                    List<Alumno> alumnos = this.alumnoRepository.findByIdNotas(notas.getIdAlumno());
+                    List<Alumno> alumnos = this.alumnoRepository.findByIdNotas(nota.getIdAlumno());
                     if (alumnos != null && !alumnos.isEmpty()) {
                         System.out.println("Notas");
                     } else {
@@ -100,20 +101,20 @@ public class AlumnoServiceImpl implements AlumnoService {
     }
 
     @Override
-    public List<ProfesorDTO> findByProfesor(Long idAlumno){
+    public List<ProfesorDTO> findByProfesorId(Long idAlumno){
         Alumno alumno = this.findById(idAlumno);
-        Notas notas = this.notasClientRest.findByIdAlumno(alumno.getIdAlumno());
-        List<Notas> listaNotas = this.notasClientRest.findAllByIdNotas(notas.getIdNotas());
+        Profesor profesor = this.profesorClientRest.findByIdAlumno(alumno.getIdAlumno());
+        List<Profesor> profesores = this.profesorClientRest.findAllByIdProfesor(profesor.getIdProfesor());
 
-        if (listaNotas != null && !listaNotas.isEmpty()) {
-            return listaNotas.stream().map(nota -> {
-                NotasDTO dto = new NotasDTO();
+        if (profesores != null && !profesores.isEmpty()) {
+            return profesores.stream().map(profe -> {
+                ProfesorDTO dto = new ProfesorDTO();
                 try {
-                    List<Alumno> alumnos = this.alumnoRepository.findByIdNotas(notas.getIdAlumno());
+                    List<Alumno> alumnos = this.alumnoRepository.findByIdProfesor(profe.getIdAlumno());
                     if (alumnos != null && !alumnos.isEmpty()) {
-                        System.out.println("Notas");
+                        System.out.println("profesor");
                     } else {
-                        throw new RuntimeException("Notas not found");
+                        throw new RuntimeException("profesor not found");
                     }
                 } catch (FeignException ex) {
                     throw new RuntimeException("Feign client error", ex);

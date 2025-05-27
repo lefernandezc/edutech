@@ -10,6 +10,7 @@ import java.util.List;
 @FeignClient(name = "msvc-inscripcion", url = "localhost:8002/api/v1/inscripcion")
 public interface IncripcionClientRest {
 
+
     @GetMapping("/alumno/{id}")
     List<Inscripcion> findByIdAlumno(@PathVariable Long id);
 }

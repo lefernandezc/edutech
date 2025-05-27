@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface InscripcionRepository extends JpaRepository<Inscripcion,Long> {
+public interface InscripcionRepository extends JpaRepository<Inscripcion, Long> {
 
     List<Inscripcion> findByIdAlumno(Long idAlumno);
 }

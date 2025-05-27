@@ -26,7 +26,7 @@ public class ProfesorServiceImpl implements ProfesorService{
     private NotasClientRest notasClientRest;
 
     @Override
-    public List<ProfesorDTO> findAll() {
+    public List<Profesor> findAll() {
         return this.profesorRepository.findAll().stream().map(profesor -> {
 
 

@@ -22,6 +22,6 @@ public class Inscripcion {
     private Integer costoInscripcion;
 
     @Column(nullable = false)
-    @NotNull(message = "El campo id-alumno no puede ser vacio")
+    @NotNull(message = "El alumno con este id no se encuentra en la base de datos")
     private Long idAlumno;
 }

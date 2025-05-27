@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface ProfesorClientRest {
 
     @GetMapping("/{id}")
-    Profesor findById(@PathVariable Long id);
+    Profesor findByIdProfesor(@PathVariable Long id);
 }
