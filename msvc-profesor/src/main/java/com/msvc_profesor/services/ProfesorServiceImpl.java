@@ -2,6 +2,7 @@ package com.msvc_profesor.services;
 
 
 import com.msvc_profesor.clients.NotasClientRest;
+import com.msvc_profesor.dtos.AlumnoDTO;
 import com.msvc_profesor.dtos.NotasDTO;
 import com.msvc_profesor.dtos.ProfesorDTO;
 import com.msvc_profesor.exceptions.ProfesorException;
@@ -71,5 +72,10 @@ public class ProfesorServiceImpl implements ProfesorService{
     @Override
     public List<Profesor> findByNotasId(Long notasid) {
         return this.profesorRepository.findByIdNotas(notasid);
+    }
+
+    @Override
+    public List<AlumnoDTO> findByAlumnoId(Long idProfesor) {
+        return List.of();
     }
 }
