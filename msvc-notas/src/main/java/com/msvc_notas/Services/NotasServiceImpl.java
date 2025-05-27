@@ -1,6 +1,7 @@
 package com.msvc_notas.Services;
 
 import com.msvc_notas.Clients.AlumnoClientRest;
+import com.msvc_notas.Dto.AlumnoDTO;
 import com.msvc_notas.Exceptions.NotasException;
 import com.msvc_notas.Models.Alumno;
 import com.msvc_notas.Models.Entities.Notas;
@@ -34,11 +35,31 @@ public class NotasServiceImpl implements NotasService {
 
     @Override
     public Notas save(Notas notas) {
-        try{
-            Alumno alumno = this.alumnoClientRest.findById(notas.getIdAlumno());
-        }catch (FeignException ex){
-            throw new NotasException("El alumno con id :"+notas.getIdAlumno()+"no esta en la base de datos");
+        return notasRepository.save(notas);
+    }
+
+    @Override
+    public List <AlumnoDTO> findByAlumnoId(Long idNotas){
+        Notas notas = this.findById(idNotas);
+        Alumno alumno = this.alumnoClientRest.findByIdNotas(notas.getIdNotas());
+        List<Alumno> alumnos =this.alumnoClientRest.findAllByIdAlumno(alumno.getIdAlumno());
+
+        if(alumnos != null && !alumnos.isEmpty()){
+            return alumnos.stream().map(alumn->{
+                AlumnoDTO dto = new AlumnoDTO();
+                try{
+                    List<Notas> notas1 = this.notasRepository.findByIdAlumno(alumn.getIdNotas());
+                    if(notas1 != null && !notas1.isEmpty()){
+                        System.out.println("Alumno");
+                    }else{
+                        throw new RuntimeException("alumno no encontrado");
+                    }
+                }catch (FeignException ex){
+                    throw new RuntimeException("Feign client error", ex);
+                }
+                return dto;
+            }).toList();
         }
-        return this.notasRepository.save(notas);
+        return List.of();
     }
 }

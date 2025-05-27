@@ -1,6 +1,7 @@
 package com.msvc_notas.Controllers;
 
 
+import com.msvc_notas.Dto.AlumnoDTO;
 import com.msvc_notas.Models.Entities.Notas;
 import com.msvc_notas.Services.NotasService;
 import jakarta.validation.Valid;
@@ -33,5 +34,10 @@ public class NotasController {
     @PostMapping
     public ResponseEntity<Notas> save(@Valid @RequestBody Notas notas){
         return ResponseEntity.status(HttpStatus.CREATED).body(notasService.save(notas));
+    }
+
+    @GetMapping("/alumno/{id}")
+    public ResponseEntity<List<AlumnoDTO>> findByIdAlumno(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(this.notasService.findByAlumnoId(id));
     }
 }
