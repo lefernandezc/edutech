@@ -1,5 +1,7 @@
 package com.msvc_profesor.controllers;
 
+import com.msvc_profesor.dtos.AlumnoDTO;
+import com.msvc_profesor.dtos.NotasDTO;
 import com.msvc_profesor.dtos.ProfesorDTO;
 import com.msvc_profesor.models.entilies.Profesor;
 import com.msvc_profesor.services.ProfesorService;
@@ -21,7 +23,7 @@ public class ProfesorControllers {
     private ProfesorService profesorService;
 
     @GetMapping
-    public ResponseEntity<List<ProfesorDTO>> findAll(){
+    public ResponseEntity<List<Profesor>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(this.profesorService.findAll());
     }
 
@@ -37,8 +39,13 @@ public class ProfesorControllers {
 
 
     @GetMapping("/notas/{id}")
-    public ResponseEntity<List<Profesor>> findByIdNotas(@PathVariable Long id){
+    public ResponseEntity<List<NotasDTO>> findByIdNotas(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(this.profesorService.findByNotasId(id));
+    }
+
+    @GetMapping("/alumno/{id}")
+    public ResponseEntity<List<AlumnoDTO>> findByIdAlumno(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(this.profesorService.findByAlumnoId(id));
     }
 
 }

@@ -1,5 +1,7 @@
 package com.msvc_profesor.services;
 
+import com.msvc_profesor.dtos.AlumnoDTO;
+import com.msvc_profesor.dtos.NotasDTO;
 import com.msvc_profesor.dtos.ProfesorDTO;
 import com.msvc_profesor.models.entilies.Profesor;
 
@@ -7,8 +9,9 @@ import java.util.List;
 
 public interface ProfesorService {
 
-    List<ProfesorDTO> findAll();
+    List<Profesor> findAll();
     Profesor findById(Long id);
     Profesor save(Profesor profesor);
-    List<Profesor> findByNotasId(Long notasid);
+    List<NotasDTO> findByNotasId(Long idProfesisor);
+    List<AlumnoDTO> findByAlumnoId(Long idProfesor);
 }
