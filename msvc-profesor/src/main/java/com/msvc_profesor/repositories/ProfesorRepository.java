@@ -10,5 +10,4 @@ import java.util.List;
 public interface ProfesorRepository extends JpaRepository<Profesor, Long> {
     
     List<Profesor> findByIdNotas(Long idNotas);
-    List<Profesor> findByIdAlumno(Long idAlumno);
 }

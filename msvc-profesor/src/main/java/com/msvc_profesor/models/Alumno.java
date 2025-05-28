@@ -13,5 +13,6 @@ public class Alumno {
     private String correo;
     private Long idNotas;
     private Long idInscripcion;
+    private Long idProfesor;
 
 }

@@ -22,34 +22,12 @@ public class ProfesorServiceImpl implements ProfesorService{
     @Autowired
     private ProfesorRepository profesorRepository;
 
-
     @Autowired
     private NotasClientRest notasClientRest;
 
     @Override
     public List<Profesor> findAll() {
-        return this.profesorRepository.findAll().stream().map(profesor -> {
-
-
-            Notas notas = null;
-            try{
-                notas = this.notasClientRest.findById(profesor.getIdNotas());
-            }catch (FeignException ex){
-                throw new ProfesorException("Las notas no existe en la base de datos");
-            }
-
-            NotasDTO notasDTO= new NotasDTO();
-            notasDTO.setNotas(notas.getNota());
-
-            ProfesorDTO profesorDTO = new ProfesorDTO();
-            profesorDTO.setNombre(profesor.getNombre());
-            profesorDTO.setAsignatura(profesor.getAsignatura());
-            profesorDTO.setRun(profesor.getCorreo());
-            profesorDTO.setCorreo(profesor.getCorreo());
-            profesorDTO.setNotas(notasDTO);
-
-            return profesorDTO;
-        }).toList();
+        return this.profesorRepository.findAll();
     }
 
     @Override
@@ -61,21 +39,32 @@ public class ProfesorServiceImpl implements ProfesorService{
 
     @Override
     public Profesor save(Profesor profesor) {
-        try{
-            Notas notas = this.notasClientRest.findById(profesor.getIdNotas());
-        }catch (FeignException ex){
-            throw new ProfesorException("existe el problema con la asociacion del alumno del profesor");
+        return profesorRepository.save(profesor);
+    }
+
+    @Override
+    public List<NotasDTO> findByNotasId(Long idProfesor) {
+        Profesor profesor = this.findById(idProfesor);
+        Notas notas = this.notasClientRest.findByIdProfesor(profesor.getIdProfesor());
+        List<Notas> listaNotas = this.notasClientRest.findAllByIdNotas(notas.getIdNotas());
+
+        if(listaNotas != null && !listaNotas.isEmpty()){
+            return listaNotas.stream().map(nota->{
+                NotasDTO dto = new NotasDTO();
+                try{
+                    List<Profesor> profesors = this.profesorRepository.findByIdNotas(nota.getIdProfesor());
+                    if (profesors != null && !profesors.isEmpty()){
+                        System.out.println("Notas");
+                    }else{
+                        throw new RuntimeException("Notas not found");
+                    }
+                }catch (FeignException ex){
+                    throw new RuntimeException("Feign client error", ex);
+                }
+                return dto;
+            }).toList();
         }
-        return this.profesorRepository.save(profesor);
-    }
-
-    @Override
-    public List<Profesor> findByNotasId(Long notasid) {
-        return this.profesorRepository.findByIdNotas(notasid);
-    }
-
-    @Override
-    public List<AlumnoDTO> findByAlumnoId(Long idProfesor) {
         return List.of();
     }
+
 }
