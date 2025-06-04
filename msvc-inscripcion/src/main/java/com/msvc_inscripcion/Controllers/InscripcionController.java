@@ -1,7 +1,5 @@
 package com.msvc_inscripcion.Controllers;
 
-import com.msvc_inscripcion.Dtos.AlumnoDTO;
-import com.msvc_inscripcion.Dtos.InscripcionDTO;
 import com.msvc_inscripcion.Models.Entities.Inscripcion;
 import com.msvc_inscripcion.Services.InscripcionService;
 import jakarta.validation.Valid;
@@ -36,8 +34,4 @@ public class InscripcionController {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.inscripcionService.save(inscripcion));
     }
 
-    @GetMapping("/alumno/{id}")
-    public ResponseEntity<List<AlumnoDTO>> findByIdAlumno(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(this.inscripcionService.findByAlumnoId(id));
-    }
 }
