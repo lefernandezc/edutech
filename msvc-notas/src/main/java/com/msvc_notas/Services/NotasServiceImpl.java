@@ -1,10 +1,12 @@
 package com.msvc_notas.Services;
 
 import com.msvc_notas.Clients.AlumnoClientRest;
+import com.msvc_notas.Clients.ProfesorClientRest;
 import com.msvc_notas.Dto.AlumnoDTO;
 import com.msvc_notas.Exceptions.NotasException;
 import com.msvc_notas.Models.Alumno;
 import com.msvc_notas.Models.Entities.Notas;
+import com.msvc_notas.Models.Profesor;
 import com.msvc_notas.Repositories.NotasRepository;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class NotasServiceImpl implements NotasService {
     @Autowired
     private AlumnoClientRest alumnoClientRest;
 
+    @Autowired
+    private ProfesorClientRest profesorClientRest;
+
     @Override
     public List<Notas> findALL() {
         return this.notasRepository.findAll();
@@ -35,13 +40,26 @@ public class NotasServiceImpl implements NotasService {
 
     @Override
     public Notas save(Notas notas) {
+        try{
+            Alumno alumno = this.alumnoClientRest.findById(notas.getIdAlumno());
+
+        }catch (FeignException ex){
+            throw new NotasException("Error al consultar alumno con ID: " + notas.getIdAlumno()));
+        }
+
+        try{
+            Profesor profesor = this.profesorClientRest.findById(notas.getIdProfesor());
+        }catch (FeignException ex){
+            throw new NotasException("Error al consultar profesor con ID: " + notas.getIdProfesor());
+        }
+
         return notasRepository.save(notas);
     }
 
     @Override
     public List <AlumnoDTO> findByAlumnoId(Long idNotas){
         Notas notas = this.findById(idNotas);
-        Alumno alumno = this.alumnoClientRest.findByIdNotas(notas.getIdNotas());
+        Alumno alumno = this.alumnoClientRest.findById(notas.getIdNotas());
         List<Alumno> alumnos =this.alumnoClientRest.findAllByIdAlumno(alumno.getIdAlumno());
 
         if(alumnos != null && !alumnos.isEmpty()){
