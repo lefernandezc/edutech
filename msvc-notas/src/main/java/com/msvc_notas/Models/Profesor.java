@@ -15,7 +15,4 @@ public class Profesor {
     private String nombre;
     private String correo;
     private String asignatura;
-    private Long idAlumno;
-    private Long idNotas;
-
 }

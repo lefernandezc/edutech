@@ -2,6 +2,7 @@ package com.msvc_notas.Controllers;
 
 
 import com.msvc_notas.Dto.AlumnoDTO;
+import com.msvc_notas.Dto.ProfesorDTO;
 import com.msvc_notas.Models.Entities.Notas;
 import com.msvc_notas.Services.NotasService;
 import jakarta.validation.Valid;
@@ -36,8 +37,13 @@ public class NotasController {
         return ResponseEntity.status(HttpStatus.CREATED).body(notasService.save(notas));
     }
 
-    @GetMapping("/alumno/{id}")
-    public ResponseEntity<List<AlumnoDTO>> findByIdAlumno(@PathVariable Long id){
+    @GetMapping("/{id}/alumno")
+    public ResponseEntity<List<AlumnoDTO>> findByAlumnoId(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(this.notasService.findByAlumnoId(id));
+    }
+
+    @GetMapping("/{id}/profesor")
+    public ResponseEntity<List<ProfesorDTO>> findByProfesorId(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(this.notasService.findByProfesorId(id));
     }
 }

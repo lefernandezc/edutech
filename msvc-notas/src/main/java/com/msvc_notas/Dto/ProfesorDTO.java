@@ -1,18 +1,13 @@
-package com.msvc_notas.Models;
-
+package com.msvc_notas.Dto;
 import lombok.*;
 
-@Getter
-@Setter
+@Getter @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class Alumno {
-
-    private Long idAlumno;
+public class ProfesorDTO {
     private String run;
     private String nombre;
     private String correo;
-    private Long idInscripcion;
+    private String asignatura;
 }
