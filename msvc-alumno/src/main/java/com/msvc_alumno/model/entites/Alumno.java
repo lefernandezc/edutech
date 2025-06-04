@@ -28,16 +28,11 @@ public class Alumno {
     @NotBlank(message = "El correo del alumno no puede esta vacio")
     private String correo;
 
-    @Column(name = "id_notas", nullable = false)
-    @NotNull(message = "El mensaje de ide_notas no puede estar vacio")
-    private Long idNotas;
 
     @Column(name = "id_inscripcion", nullable = false)
     @NotNull(message = "El campo de id_inscripcion no puede estar vacio")
     private Long idInscripcion;
 
-    @Column(nullable = false)
-    @NotNull(message = "El campos id profesor no puede estar vacio")
-    private Long idProfesor;
+
 
 }

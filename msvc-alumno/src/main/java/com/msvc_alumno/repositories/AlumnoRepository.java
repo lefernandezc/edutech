@@ -9,6 +9,4 @@ import java.util.List;
 @Repository
 public interface AlumnoRepository extends JpaRepository<Alumno, Long> {
     List<Alumno> findByIdInscripcion(Long idInscripcion);
-    List<Alumno> findByIdNotas(Long idNotas);
-    List<Alumno> findByIdProfesor(Long idProfesor);
 }
