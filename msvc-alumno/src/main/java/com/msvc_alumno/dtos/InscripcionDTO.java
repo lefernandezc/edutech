@@ -10,5 +10,5 @@ import lombok.*;
 public class InscripcionDTO {
 
     private Integer costoInscripcion;
-    private String alumno;
+
 }

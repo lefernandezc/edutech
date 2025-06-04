@@ -11,6 +11,6 @@ import java.util.List;
 public interface IncripcionClientRest {
 
 
-    @GetMapping("/alumno/{id}")
-    List<Inscripcion> findByIdAlumno(@PathVariable Long id);
+    @GetMapping("/{id}")
+    Inscripcion findById(@PathVariable Long id);
 }

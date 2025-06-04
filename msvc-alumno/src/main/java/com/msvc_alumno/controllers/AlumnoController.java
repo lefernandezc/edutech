@@ -1,5 +1,6 @@
 package com.msvc_alumno.controllers;
 
+import com.msvc_alumno.dtos.AlumnoDTO;
 import com.msvc_alumno.dtos.InscripcionDTO;
 import com.msvc_alumno.model.entites.Alumno;
 import com.msvc_alumno.services.AlumnoService;
@@ -22,7 +23,7 @@ public class AlumnoController {
     private AlumnoService alumnoService;
 
     @GetMapping
-    public ResponseEntity<List<Alumno>> findAll() {
+    public ResponseEntity<List<AlumnoDTO>> findAll() {
         return ResponseEntity.status(HttpStatus.OK).body(this.alumnoService.findAll());
     }
 
@@ -37,10 +38,10 @@ public class AlumnoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.alumnoService.save(alumno));
         }
 
-        @GetMapping("/inscripcion/{id}")
-    public ResponseEntity<List<InscripcionDTO>> findByIdInscripcion(@PathVariable Long id){
+    @GetMapping("/inscripcion/{id}")
+    public ResponseEntity<List<Alumno>> findByIdInscripcion(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(this.alumnoService.findByInscripcionId(id));
-        }
+    }
 
 
 }
