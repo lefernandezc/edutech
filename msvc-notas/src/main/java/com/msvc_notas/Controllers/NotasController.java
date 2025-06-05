@@ -24,7 +24,7 @@ public class NotasController {
 
     @GetMapping
     public ResponseEntity<List<Notas>> findAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(notasService.findALL());
+        return ResponseEntity.status(HttpStatus.OK).body(notasService.findAll());
     }
 
     @GetMapping("/{id}")
