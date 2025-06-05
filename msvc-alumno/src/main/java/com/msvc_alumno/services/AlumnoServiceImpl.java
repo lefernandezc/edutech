@@ -38,7 +38,10 @@ public class AlumnoServiceImpl implements AlumnoService {
             InscripcionDTO inscripcionDTO = new InscripcionDTO();
             inscripcionDTO.setCostoInscripcion(inscripcion.getCostoInscripcion());
 
-            return null;
+            AlumnoDTO alumnoDTO = new AlumnoDTO();
+            alumnoDTO.setInscripcion(inscripcionDTO);
+
+            return alumnoDTO;
         }).toList();
     }
 
