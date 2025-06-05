@@ -38,11 +38,6 @@ public class ProfesorControllers {
     }
 
 
-    @GetMapping("/notas/{id}")
-    public ResponseEntity<List<NotasDTO>> findByIdNotas(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(this.profesorService.findByNotasId(id));
-    }
-
 
 
 }

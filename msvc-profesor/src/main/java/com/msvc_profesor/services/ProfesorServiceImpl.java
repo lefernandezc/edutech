@@ -22,8 +22,6 @@ public class ProfesorServiceImpl implements ProfesorService{
     @Autowired
     private ProfesorRepository profesorRepository;
 
-    @Autowired
-    private NotasClientRest notasClientRest;
 
     @Override
     public List<Profesor> findAll() {
@@ -39,32 +37,13 @@ public class ProfesorServiceImpl implements ProfesorService{
 
     @Override
     public Profesor save(Profesor profesor) {
-        return profesorRepository.save(profesor);
-    }
 
-    @Override
-    public List<NotasDTO> findByNotasId(Long idProfesor) {
-        Profesor profesor = this.findById(idProfesor);
-        Notas notas = this.notasClientRest.findByIdProfesor(profesor.getIdProfesor());
-        List<Notas> listaNotas = this.notasClientRest.findAllByIdNotas(notas.getIdNotas());
-
-        if(listaNotas != null && !listaNotas.isEmpty()){
-            return listaNotas.stream().map(nota->{
-                NotasDTO dto = new NotasDTO();
-                try{
-                    List<Profesor> profesors = this.profesorRepository.findByIdNotas(nota.getIdProfesor());
-                    if (profesors != null && !profesors.isEmpty()){
-                        System.out.println("Notas");
-                    }else{
-                        throw new RuntimeException("Notas not found");
-                    }
-                }catch (FeignException ex){
-                    throw new RuntimeException("Feign client error", ex);
-                }
-                return dto;
-            }).toList();
+        if (this.profesorRepository.findByNombre(profesor.getNombre()).isPresent()) {
+            throw new ProfesorException("El nombre de profesor:" + profesor.getNombre() + "ya existe en la base de datos");
         }
-        return List.of();
+        return this.profesorRepository.save(profesor);
+    }
     }
 
-}
+
+
