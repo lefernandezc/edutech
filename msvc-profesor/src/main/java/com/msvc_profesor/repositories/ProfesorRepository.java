@@ -5,9 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProfesorRepository extends JpaRepository<Profesor, Long> {
     
-    List<Profesor> findByIdNotas(Long idNotas);
+    Optional<Profesor> findByNombre(String nombre);
 }

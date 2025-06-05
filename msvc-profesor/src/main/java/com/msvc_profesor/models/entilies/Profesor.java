@@ -34,8 +34,5 @@ public class Profesor {
     @NotBlank(message = "La asignatura no puede estar vacio")
     private String asignatura;
 
-    @Column(nullable = false)
-    @NotNull(message = "El mensaje de ide_notas no puede estar vacio")
-    private Long idNotas;
 
 }
