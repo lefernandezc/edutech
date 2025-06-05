@@ -29,7 +29,7 @@ public class InscripcionServiceImpl implements InscripcionService {
 
     @Override
     public Inscripcion save(Inscripcion inscripcion){
-        if(this.inscripcionRepository.findByInscripcion(inscripcion.getIdInscripcion()).isPresent()){
+        if(this.inscripcionRepository.findByIdInscripcion(inscripcion.getIdInscripcion()).isPresent()){
             throw new InscripcionException("La inscripcion con id: "+inscripcion.getIdInscripcion()
             +" ya existe en la base de datos");
         }
