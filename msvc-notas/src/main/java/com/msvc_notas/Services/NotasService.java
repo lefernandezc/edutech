@@ -1,16 +1,15 @@
 package com.msvc_notas.Services;
 
-import com.msvc_notas.Dto.AlumnoDTO;
-import com.msvc_notas.Dto.ProfesorDTO;
+import com.msvc_notas.Dto.NotasDTO;
 import com.msvc_notas.Models.Entities.Notas;
 
 import java.util.List;
 
 public interface NotasService {
 
-    List<Notas> findALL();
+    List<NotasDTO> findAll();
     Notas findById(Long id);
     Notas save (Notas notas);
-    List <AlumnoDTO> findByAlumnoId(Long alumnnoId);
-    List <ProfesorDTO> findByProfesorId(Long profesorId);
+    List <Notas> findByAlumnoId(Long alumnoId);
+    List <Notas> findByProfesorId(Long profesorId);
 }

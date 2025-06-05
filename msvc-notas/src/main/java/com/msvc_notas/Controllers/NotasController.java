@@ -2,6 +2,7 @@ package com.msvc_notas.Controllers;
 
 
 import com.msvc_notas.Dto.AlumnoDTO;
+import com.msvc_notas.Dto.NotasDTO;
 import com.msvc_notas.Dto.ProfesorDTO;
 import com.msvc_notas.Models.Entities.Notas;
 import com.msvc_notas.Services.NotasService;
@@ -23,8 +24,8 @@ public class NotasController {
     private NotasService notasService;
 
     @GetMapping
-    public ResponseEntity<List<Notas>> findAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(notasService.findALL());
+    public ResponseEntity<List<NotasDTO>> findAll(){
+        return ResponseEntity.status(HttpStatus.OK).body(notasService.findAll());
     }
 
     @GetMapping("/{id}")
@@ -38,12 +39,12 @@ public class NotasController {
     }
 
     @GetMapping("/{id}/alumno")
-    public ResponseEntity<List<AlumnoDTO>> findByAlumnoId(@PathVariable Long id){
+    public ResponseEntity<List<Notas>> findByAlumnoId(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(this.notasService.findByAlumnoId(id));
     }
 
     @GetMapping("/{id}/profesor")
-    public ResponseEntity<List<ProfesorDTO>> findByProfesorId(@PathVariable Long id){
+    public ResponseEntity<List<Notas>> findByProfesorId(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(this.notasService.findByProfesorId(id));
     }
 }

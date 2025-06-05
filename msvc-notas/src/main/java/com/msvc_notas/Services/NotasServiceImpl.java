@@ -3,6 +3,8 @@ package com.msvc_notas.Services;
 import com.msvc_notas.Clients.AlumnoClientRest;
 import com.msvc_notas.Clients.ProfesorClientRest;
 import com.msvc_notas.Dto.AlumnoDTO;
+import com.msvc_notas.Dto.NotasDTO;
+import com.msvc_notas.Dto.ProfesorDTO;
 import com.msvc_notas.Exceptions.NotasException;
 import com.msvc_notas.Models.Alumno;
 import com.msvc_notas.Models.Entities.Notas;
@@ -27,8 +29,39 @@ public class NotasServiceImpl implements NotasService {
     private ProfesorClientRest profesorClientRest;
 
     @Override
-    public List<Notas> findALL() {
-        return this.notasRepository.findAll();
+    public List<NotasDTO> findAll() {
+        return this.notasRepository.findAll().stream().map(notas -> {
+            Alumno alumno = null;
+            try{
+                alumno = this.alumnoClientRest.findById(notas.getIdAlumno());
+            }catch (FeignException ex){
+                throw new NotasException("El alumno buscado no existe");
+            }
+
+            Profesor profesor = null;
+            try{
+                profesor = this.profesorClientRest.findById(notas.getIdProfesor());
+            }catch (FeignException ex){
+                throw new NotasException("El profesor buscado no existe");
+            }
+
+            AlumnoDTO alumnoDTO = new AlumnoDTO();
+            alumnoDTO.setNombre(alumno.getNombre());
+            alumnoDTO.setRun(alumno.getRun());
+            alumnoDTO.setCorreo(alumno.getCorreo());
+
+            ProfesorDTO profesorDTO = new ProfesorDTO();
+            profesorDTO.setNombre(profesor.getNombre());
+            profesorDTO.setRun(profesor.getRun());
+            profesorDTO.setCorreo(profesor.getCorreo());
+            profesorDTO.setAsignatura(profesor.getAsignatura());
+
+            NotasDTO notasDTO = new NotasDTO();
+            notasDTO.setAlumno(alumnoDTO);
+            notasDTO.setProfesor(profesorDTO);
+            return notasDTO;
+
+        }).toList();
     }
 
     @Override
@@ -44,7 +77,7 @@ public class NotasServiceImpl implements NotasService {
             Alumno alumno = this.alumnoClientRest.findById(notas.getIdAlumno());
 
         }catch (FeignException ex){
-            throw new NotasException("Error al consultar alumno con ID: " + notas.getIdAlumno()));
+            throw new NotasException("Error al consultar alumno con ID: " + notas.getIdAlumno());
         }
 
         try{
@@ -57,27 +90,12 @@ public class NotasServiceImpl implements NotasService {
     }
 
     @Override
-    public List <AlumnoDTO> findByAlumnoId(Long idNotas){
-        Notas notas = this.findById(idNotas);
-        Alumno alumno = this.alumnoClientRest.findById(notas.getIdNotas());
-        List<Alumno> alumnos =this.alumnoClientRest.findAllByIdAlumno(alumno.getIdAlumno());
+    public List<Notas> findByAlumnoId(Long alumnoId){
+       return this.notasRepository.findByIdAlumno(alumnoId);
+    }
 
-        if(alumnos != null && !alumnos.isEmpty()){
-            return alumnos.stream().map(alumn->{
-                AlumnoDTO dto = new AlumnoDTO();
-                try{
-                    List<Notas> notas1 = this.notasRepository.findByIdAlumno(alumn.getIdNotas());
-                    if(notas1 != null && !notas1.isEmpty()){
-                        System.out.println("Alumno");
-                    }else{
-                        throw new RuntimeException("alumno no encontrado");
-                    }
-                }catch (FeignException ex){
-                    throw new RuntimeException("Feign client error", ex);
-                }
-                return dto;
-            }).toList();
-        }
-        return List.of();
+    @Override
+    public List<Notas> findByProfesorId(Long profesorId){
+        return this.notasRepository.findByIdProfesor(profesorId);
     }
 }
