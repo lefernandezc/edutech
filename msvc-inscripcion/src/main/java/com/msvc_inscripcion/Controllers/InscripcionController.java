@@ -64,11 +64,27 @@ public class InscripcionController {
 
     @PostMapping
     @Operation(
-            summary = ""
+            summary = "Guarda una inscripcion",
+            description = "Cons este metodo podemos enviar los datos mediante un body y realizar el guardado"
     )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Guardado exitoso"),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "La inscripcion guardada ya se encuentra en la base de datos",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorDTO.class)
+                    )
+            )
+    })
     //se importa desde swagger para no interferir con el otro request body
     @io.swagger.v3.oas.annotations.parameters.RequestBody(
-
+            description = "Inscripcion a crear",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Inscripcion.class)
+            )
     )
     public ResponseEntity<Inscripcion> save(@RequestBody @Valid Inscripcion inscripcion){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.inscripcionService.save(inscripcion));

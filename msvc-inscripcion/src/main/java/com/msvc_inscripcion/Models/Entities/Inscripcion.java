@@ -23,4 +23,8 @@ public class Inscripcion {
     @Schema(description = "El costo de la inscripcion", example = "20000")
     private Integer costoInscripcion;
 
+    public Inscripcion (Integer costoInscripcion){
+        this.costoInscripcion = costoInscripcion;
+    }
+
 }
