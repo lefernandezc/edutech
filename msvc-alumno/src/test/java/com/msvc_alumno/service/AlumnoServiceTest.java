@@ -1,6 +1,8 @@
 package com.msvc_alumno.service;
 
+import com.msvc_alumno.clients.IncripcionClientRest;
 import com.msvc_alumno.dtos.AlumnoDTO;
+import com.msvc_alumno.model.Inscripcion;
 import com.msvc_alumno.model.entites.Alumno;
 import com.msvc_alumno.repositories.AlumnoRepository;
 import com.msvc_alumno.services.AlumnoServiceImpl;
@@ -27,39 +29,47 @@ public class AlumnoServiceTest {
     @Mock
     private AlumnoRepository alumnoRepository;
 
+    @Mock
+    private IncripcionClientRest incripcionClientRest;
+
     @InjectMocks
     private AlumnoServiceImpl alumnoService;
 
-    private List<Alumno> alumnoList = new ArrayList<>();
+    private Inscripcion inscripcionTest;
 
-    private Alumno alumnoPrueba;
+    private Alumno alumnoTest;
 
     @BeforeEach
     public void setUp(){
-        Faker faker = new Faker(Locale.of("es","CL"));
-        for(int i=0;i<100;i++){
-            Alumno alumno = new Alumno();
-            alumno.setIdAlumno((long) i+1);
-            alumno.setNombre(faker.name().fullName());
-            alumno.setCorreo(faker.internet().emailAddress());
+        inscripcionTest = new Inscripcion(
+                1L,200000,1L
+        );
+        alumnoTest = new Alumno(
+                1L,
+                "20192147-9",
+                "loca",
+                "localol200@edutech.cl",
+                1L
+        );
 
-            String numeroString = faker.idNumber().valid().replaceAll("-","");
-            String ultimo = numeroString.substring(numeroString.length()-1);
-            String restante = numeroString.substring(0,numeroString.length()-1);
-
-            alumno.setRun(restante+"-"+ultimo);
-            this.alumnoList.add(alumno);
-        }
-        this.alumnoPrueba = this.alumnoList.get(0);
     }
 
     @Test
-    @DisplayName("Devuele todos los alumnos")
-    public void shouldFindAllAlumnos(){
-        when(alumnoRepository.findAll()).thenReturn(this.alumnoList);
-        List<AlumnoDTO> result = alumnoService.findAll();
-        assertThat(result).hasSize(200);
-        assertThat(result).contains(this.alumnoPrueba);
+    @DisplayName("Deve crear un alumno")
+    public void shouldCreateAlumno(){
+        when(incripcionClientRest.findById(1L)).thenReturn(this.inscripcionTest);
+        when(alumnoRepository.save(any(Alumno.class))).thenReturn(this.alumnoTest);
+
+        Alumno result = alumnoService.save(this.alumnoTest);
+
+        assertThat(result).isNotNull();
+        assertThat(result).isEqualTo(this.alumnoTest);
+
+        verify(incripcionClientRest,times(1)).findById(1L);
+        verify(alumnoRepository,times(1)).save(any(Alumno.class));
 
     }
+
+
+
 }
