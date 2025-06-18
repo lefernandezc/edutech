@@ -2,6 +2,7 @@ package com.msvc_profesor.services;
 
 
 
+import com.msvc_profesor.exceptions.ProfesorException;
 import com.msvc_profesor.models.entilies.Profesor;
 import com.msvc_profesor.repositories.ProfesorRepository;
 import net.datafaker.Faker;
@@ -16,8 +17,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -61,13 +64,30 @@ public class ProfesorServiceTest {
         assertThat(result).hasSize(200);
         assertThat(result).contains(this.profesorPrueba);
 
-        verify(profesorRepository, times())
+        verify(profesorRepository, times(1)).findById(1L);
     }
 
     @Test
     @DisplayName("Encontrar por id del profesor")
-    public void shouldFinProfesorById(){
-        when(profesorRepository.findById(1L)).thenReturn()
+    public void shouldFinProfesorById() {
+        Long idInexistente = 1L;
+        when(profesorRepository.findById(idInexistente)).thenReturn(Optional.empty());
+        assertThatThrownBy(()->{
+            profesorService.findById(idInexistente);
+        }).isInstanceOf(ProfesorException.class)
+                .hasMessageContaining("El medico con id "+idInexistente+"no se encuentra en la base de datos");
+        verify(profesorRepository,times(1)).findById(idInexistente);
+    }
+
+    @Test
+    @DisplayName("deberia guardar un medico")
+    public void shouldSaveProfesor(){
+        when(profesorRepository.save(any(Profesor.class))).thenReturn(this.profesorPrueba);
+        Profesor result = profesorService.save(this.profesorPrueba);
+        assertThat(result).isNotNull();
+        assertThat(result).isEqualTo(this.profesorPrueba);
+        verify(profesorRepository,times(1)).save(any(Profesor.class));
+
     }
 
 }

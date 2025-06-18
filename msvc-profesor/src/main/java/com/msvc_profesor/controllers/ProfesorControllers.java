@@ -1,8 +1,6 @@
 package com.msvc_profesor.controllers;
 
-import com.msvc_profesor.dtos.AlumnoDTO;
-import com.msvc_profesor.dtos.NotasDTO;
-import com.msvc_profesor.dtos.ProfesorDTO;
+
 import com.msvc_profesor.models.entilies.Profesor;
 import com.msvc_profesor.services.ProfesorService;
 import jakarta.validation.Valid;
