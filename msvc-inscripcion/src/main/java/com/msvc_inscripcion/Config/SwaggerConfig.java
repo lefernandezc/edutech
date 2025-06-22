@@ -10,11 +10,16 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfig {
     @Bean
     public OpenAPI customOpenApi(){
+        Contact contact = new Contact();
+        contact.setName("Leandro Fernandez");
+        contact.setEmail("le.fernandezc@duocuc.cl");
         return new OpenAPI()
                 .info(new Info()
                         .title("Api Restfull - MSVC - Inscripcion")
                         .description("Esta es la api dedicada al msvc de inscripcion")
                         .version("1.0.0")
+                        .contact(contact)
+                        .summary("esto es una api dentro de un proyecto MSVC")
 
                 );
     }
