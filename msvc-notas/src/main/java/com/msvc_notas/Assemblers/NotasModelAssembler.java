@@ -2,6 +2,7 @@ package com.msvc_notas.Assemblers;
 
 import com.msvc_notas.Controllers.NotasControllerV2;
 import com.msvc_notas.Dto.NotasDTO;
+import com.msvc_notas.Models.Entities.Notas;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
@@ -11,16 +12,16 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class NotasModelAssembler implements RepresentationModelAssembler<NotasDTO, EntityModel<NotasDTO>> {
+public class NotasModelAssembler implements RepresentationModelAssembler<Notas, EntityModel<Notas>> {
 
     @Override
-    public EntityModel<NotasDTO> toModel(NotasDTO dto){
+    public EntityModel<Notas> toModel(Notas entity){
         return EntityModel.of(
-                dto,
-                linkTo(methodOn(NotasControllerV2.class).findById(dto.get())).withSelfRel(),
+                entity,
+                linkTo(methodOn(NotasControllerV2.class).findById(entity.getIdNotas())).withSelfRel(),
                 linkTo(methodOn(NotasControllerV2.class).findAll()).withRel("Notas"),
-                Link.of("http://localhost:8001/api/v1/alumno/"+ dto.getIdNotas()).withRel("alumno"),
-                Link.of("http://localhost:8004/api/v1/profesor/"+ dto.getIdNotas()).withRel("profesor")
+                Link.of("http://localhost:8001/api/v1/alumno/"+ entity.getIdNotas()).withRel("alumno"),
+                Link.of("http://localhost:8004/api/v1/profesor/"+ entity.getIdNotas()).withRel("profesor")
         );
     }
 }

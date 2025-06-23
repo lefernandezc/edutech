@@ -19,6 +19,7 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,7 @@ public class NotasControllerV2 {
     private NotasService notasService;
 
     @Autowired
-    private NotasModelAssembler notasDtoModelAssembler;
+    private NotasModelAssembler notasModelAssembler;
 
     @GetMapping
     @Operation(summary = "Obtiene todos las notas", description = "Devuele un List de Notas en el Body")
@@ -52,18 +53,19 @@ public class NotasControllerV2 {
                     )
             )
     })
-    public ResponseEntity<CollectionModel<EntityModel<NotasDTO>>> findAll() {
-        List<EntityModel<NotasDTO>> entityModels = this.notasService.findAll()
+    public ResponseEntity<CollectionModel<EntityModel<Notas>>> findAll(){
+        List<EntityModel<Notas>> entityModels = this.notasService.findAll()
                 .stream()
-                .map(notasDtoModelAssembler::toModel)
+                .map(notasModelAssembler::toModel)
                 .toList();
 
-        CollectionModel<EntityModel<NotasDTO>> collectionModel = CollectionModel.of(
+        CollectionModel<EntityModel<Notas>> collectionModel = CollectionModel.of(
                 entityModels,
                 linkTo(methodOn(NotasControllerV2.class).findAll()).withSelfRel()
         );
-
-        return ResponseEntity.ok(collectionModel);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(collectionModel);
     }
 
     @GetMapping("/{id}")
@@ -91,7 +93,7 @@ public class NotasControllerV2 {
     })
 
     public ResponseEntity<EntityModel<Notas>> findById(@PathVariable Long id){
-        EntityModel<Notas> entityModel = this.notasDtoModelAssembler.toModel(
+        EntityModel<Notas> entityModel = this.notasModelAssembler.toModel(
                 this.notasService.findById(id)
         );
         return ResponseEntity
@@ -130,7 +132,7 @@ public class NotasControllerV2 {
     )
     public ResponseEntity<EntityModel<Notas>>  save(@Valid @RequestBody Notas notas) {
         Notas notaNew = this.notasService.save(notas);
-        EntityModel<Notas> entityModel = this.notasDtoModelAssembler.toModel(notaNew);
+        EntityModel<Notas> entityModel = this.notasModelAssembler.toModel(notaNew);
 
         return ResponseEntity
                 .created(linkTo(methodOn(NotasControllerV2.class).findById(notaNew.getIdNotas())).toUri())
