@@ -2,6 +2,7 @@ package com.msvc_alumno.service;
 
 import com.msvc_alumno.clients.IncripcionClientRest;
 import com.msvc_alumno.dtos.AlumnoDTO;
+import com.msvc_alumno.dtos.InscripcionDTO;
 import com.msvc_alumno.model.Inscripcion;
 import com.msvc_alumno.model.entites.Alumno;
 import com.msvc_alumno.repositories.AlumnoRepository;
