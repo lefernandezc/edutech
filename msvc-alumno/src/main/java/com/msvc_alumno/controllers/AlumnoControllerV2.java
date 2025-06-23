@@ -109,9 +109,28 @@ public class AlumnoControllerV2 {
                             schema = @Schema(implementation = Alumno.class)
                     )
             ),
-            @ApiResponse(
-                    responseCode = "409",
-                    description = "El alumno guardado"
+                    @ApiResponse(
+                            responseCode = "409",
+                            description = "El alumno guardo y se encuentra en la base de datos",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = Error.class)
+                            )
+                    )
+            })
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "inscricion a crear",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = Alumno.class)
+                    )
             )
-    })
+            public ResponseEntity<EntityModel<Alumno>> save(@Valid @RequestBody Alumno alumno){
+                Alumno alumNew = this.alumnoService.save(alumno);
+                EntityModel<Alumno> entityModel= this.alumnoModelAssembler.toModel(alumNew);
+                return ResponseEntity
+                        .created(linkTo(methodOn(AlumnoControllerV2.class).findById(alumNew.getIdAlumno())).toUri())
+                        .body(entityModel);
+    }
+
 }
