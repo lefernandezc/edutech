@@ -1,9 +1,10 @@
-package com.msvc_inscripcion.Controllers;
+package com.msvc_notas.Controllers;
 
-import com.msvc_inscripcion.Assemblers.InscripcionModelAssembler;
-import com.msvc_inscripcion.Dtos.ErrorDTO;
-import com.msvc_inscripcion.Models.Entities.Inscripcion;
-import com.msvc_inscripcion.Services.InscripcionService;
+import com.msvc_notas.Assemblers.NotasModelAssembler;
+import com.msvc_notas.Dto.ErrorDTO;
+import com.msvc_notas.Dto.NotasDTO;
+import com.msvc_notas.Models.Entities.Notas;
+import com.msvc_notas.Services.NotasService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -14,7 +15,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.MediaTypes;
@@ -29,59 +29,57 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping("/api/v2/inscripcion")
+@RequestMapping("/api/v2/notas")
 @Validated
-@Tag(name = "Inscripcion V2", description = "Operaciones CRUD de inscripcion hateoas")
-public class InscripcionControllerV2 {
+@Tag(name = "Notas V2", description = "Operaciones CRUD de notas hateoas")
+public class NotasControllerV2 {
 
     @Autowired
-    private InscripcionService inscripcionService;
+    private NotasService notasService;
 
     @Autowired
-    private InscripcionModelAssembler inscripcionModelAssembler;
+    private NotasModelAssembler notasDtoModelAssembler;
 
     @GetMapping
-    @Operation(summary = "Obtiene todos las inscripciones", description = "Devuelve un List de Inscripciones en el Body")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Operacion existosa",
-                    content = @Content(
-                            mediaType = MediaTypes.HAL_JSON_VALUE,
-                            schema = @Schema(implementation = Inscripcion.class)
-                    )
-            )
-    })
-    public ResponseEntity<CollectionModel<EntityModel<Inscripcion>>> findAll(){
-        List<EntityModel<Inscripcion>> entityModels = this.inscripcionService.findAll()
-                .stream()
-                .map(inscripcionModelAssembler::toModel)
-                .toList();
-
-        CollectionModel<EntityModel<Inscripcion>> collectionModel = CollectionModel.of(
-                entityModels,
-                linkTo(methodOn(InscripcionControllerV2.class).findAll()).withSelfRel()
-        );
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(collectionModel);
-    }
-
-    @GetMapping("/{id}")
-    @Operation(summary = "Obtiene una inscripcion", description = "A través del id suministrado devuelve la inscripcion con esa id")
+    @Operation(summary = "Obtiene todos las notas", description = "Devuele un List de Notas en el Body")
     @ApiResponses( value = {
             @ApiResponse(
                     responseCode = "200",
                     description = "Operacion existosa",
                     content = @Content(
                             mediaType = MediaTypes.HAL_JSON_VALUE,
-                            schema = @Schema(implementation = Inscripcion.class)
+                            schema = @Schema(implementation = Notas.class)
+                    )
+            )
+    })
+    public ResponseEntity<CollectionModel<EntityModel<NotasDTO>>> findAll() {
+        List<EntityModel<NotasDTO>> entityModels = this.notasService.findAll()
+                .stream()
+                .map(notasDtoModelAssembler::toModel)
+                .toList();
+
+        CollectionModel<EntityModel<NotasDTO>> collectionModel = CollectionModel.of(
+                entityModels,
+                linkTo(methodOn(NotasControllerV2.class).findAll()).withSelfRel()
+        );
+
+        return ResponseEntity.ok(collectionModel);
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Obtiene una nota", description = "A través del id suministrado devuelve la nota con esa id")
+    @ApiResponses( value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Operacion existosa",
+                    content = @Content(
+                            mediaType = MediaTypes.HAL_JSON_VALUE,
+                            schema = @Schema(implementation = Notas.class)
                     )
             ),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Inscripcion no encontrado, con el id suministrado",
+                    description = "Nota no encontrado, con el id suministrado",
                     content = @Content(
                             mediaType = "application/json",
                             schema =  @Schema(implementation = ErrorDTO.class)
@@ -89,20 +87,20 @@ public class InscripcionControllerV2 {
             )
     })
     @Parameters(value = {
-            @Parameter(name="id", description = "Este es el id unico de la inscripcion", required = true)
+            @Parameter(name="id", description = "Este es el id unico de nota", required = true)
     })
-    public ResponseEntity<EntityModel<Inscripcion>> findById(@PathVariable Long id){
-        EntityModel<Inscripcion> entityModel = this.inscripcionModelAssembler.toModel(
-                this.inscripcionService.findById(id)
+
+    public ResponseEntity<EntityModel<Notas>> findById(@PathVariable Long id){
+        EntityModel<Notas> entityModel = this.notasDtoModelAssembler.toModel(
+                this.notasService.findById(id)
         );
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(entityModel);
     }
-
     @PostMapping
     @Operation(
-            summary = "Guarda una inscripcion",
+            summary = "Guarda un medico",
             description = "Con este método podemos enviar los datos mediante un body y realizar el guardado"
     )
     @ApiResponses( value = {
@@ -111,12 +109,12 @@ public class InscripcionControllerV2 {
                     description = "Guardado exitoso",
                     content = @Content(
                             mediaType = MediaTypes.HAL_JSON_VALUE,
-                            schema = @Schema(implementation = Inscripcion.class)
+                            schema = @Schema(implementation = Notas.class)
                     )
             ),
             @ApiResponse(
                     responseCode = "409",
-                    description = "La inscripcion guardada ya se encuentra en la base de datos",
+                    description = "El medico guardado ya se encuentra en la base de datos",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorDTO.class)
@@ -124,18 +122,18 @@ public class InscripcionControllerV2 {
             )
     })
     @io.swagger.v3.oas.annotations.parameters.RequestBody(
-            description = "inscripcion a crear",
+            description = "medico a crear",
             content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = Inscripcion.class)
+                    schema = @Schema(implementation = Notas.class)
             )
     )
-    public ResponseEntity<EntityModel<Inscripcion>> save(@Valid @RequestBody Inscripcion inscripcion){
-        Inscripcion inscripNew = this.inscripcionService.save(inscripcion);
-        EntityModel<Inscripcion> entityModel = this.inscripcionModelAssembler.toModel(inscripNew);
+    public ResponseEntity<EntityModel<Notas>>  save(@Valid @RequestBody Notas notas) {
+        Notas notaNew = this.notasService.save(notas);
+        EntityModel<Notas> entityModel = this.notasDtoModelAssembler.toModel(notaNew);
 
         return ResponseEntity
-                .created(linkTo(methodOn(InscripcionControllerV2.class).findById(inscripNew.getIdInscripcion())).toUri())
+                .created(linkTo(methodOn(NotasControllerV2.class).findById(notaNew.getIdNotas())).toUri())
                 .body(entityModel);
     }
 

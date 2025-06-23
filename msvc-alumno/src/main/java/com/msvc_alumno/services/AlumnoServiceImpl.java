@@ -22,9 +22,6 @@ public class AlumnoServiceImpl implements AlumnoService {
 
     @Autowired
     private IncripcionClientRest incripcionClientRest;
-
-
-
     @Override
     public List<AlumnoDTO> findAll() {
         return this.alumnoRepository.findAll().stream().map(alumno -> {
