@@ -18,7 +18,7 @@ public class AlumnoModelAssembler implements RepresentationModelAssembler<Alumno
         return EntityModel.of(
                 entity,
                 linkTo(methodOn(AlumnoControllerV2.class).findById(entity.getIdAlumno())).withSelfRel(),
-                linkTo(methodOn(AlumnoControllerV2.class).findAll()).withRel("Alumno"),
+                linkTo(methodOn(AlumnoControllerV2.class).findAll()).withRel("Alumno")
 
         );
 
