@@ -90,12 +90,12 @@ public class NotasController {
     }
 
     @GetMapping("/{id}/alumno")
-    public ResponseEntity<List<Notas>> findByAlumnoId(@PathVariable Long id){
+    public ResponseEntity<List<NotasDTO>> findByAlumnoId(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(this.notasService.findByAlumnoId(id));
     }
 
     @GetMapping("/{id}/profesor")
-    public ResponseEntity<List<Notas>> findByProfesorId(@PathVariable Long id){
+    public ResponseEntity<List<NotasDTO>> findByProfesorId(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(this.notasService.findByProfesorId(id));
     }
 }

@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface NotasRepository extends JpaRepository<Notas, Long> {
 
-    List<Notas> findByIdAlumno(Long idAlumno);
-    List<Notas> findByIdProfesor (Long idProfesor);
+    List<NotasDTO> findByIdAlumno(Long idAlumno);
+    List<NotasDTO> findByIdProfesor (Long idProfesor);
 }

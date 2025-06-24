@@ -90,12 +90,12 @@ public class NotasServiceImpl implements NotasService {
     }
 
     @Override
-    public List<Notas> findByAlumnoId(Long alumnoId){
+    public List<NotasDTO> findByAlumnoId(Long alumnoId){
        return this.notasRepository.findByIdAlumno(alumnoId);
     }
 
     @Override
-    public List<Notas> findByProfesorId(Long profesorId){
+    public List<NotasDTO> findByProfesorId(Long profesorId){
         return this.notasRepository.findByIdProfesor(profesorId);
     }
 }
