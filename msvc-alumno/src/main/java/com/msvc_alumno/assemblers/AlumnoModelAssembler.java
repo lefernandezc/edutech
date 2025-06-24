@@ -2,9 +2,9 @@ package com.msvc_alumno.assemblers;
 
 
 import com.msvc_alumno.controllers.AlumnoControllerV2;
+import com.msvc_alumno.dtos.AlumnoDTO;
 import com.msvc_alumno.model.entites.Alumno;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
@@ -24,4 +24,11 @@ public class AlumnoModelAssembler implements RepresentationModelAssembler<Alumno
 
 
     }
+
+    public EntityModel<AlumnoDTO> toModel(AlumnoDTO entity) {
+        return EntityModel.of(
+                entity,
+                linkTo(methodOn(AlumnoControllerV2.class).findById(entity.getIdAlumno())).withSelfRel(),
+                linkTo(methodOn(AlumnoControllerV2.class).findAll()).withRel("Alumno"))
+    ;}
 }
