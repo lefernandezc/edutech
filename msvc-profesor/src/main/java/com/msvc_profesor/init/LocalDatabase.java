@@ -31,13 +31,14 @@ public class LocalDatabase implements CommandLineRunner {
                 Profesor profesor = new Profesor();
                 profesor.setAsignatura(faker.careProvider().medicalProfession());
                 profesor.setNombre(faker.name().fullName());
+                profesor.setCorreo("caceressimon70@gmail.com");
 
                 String numeroString = faker.idNumber().valid().replaceAll("-","");
                 String ultimo = numeroString.substring(numeroString.length()-1);
                 String restante = numeroString.substring(0,numeroString.length()-1);
 
                 profesor.setRun(restante+"-"+ultimo);
-                logger.info("el rut que agregas es {}", profesor.getRun());
+                logger.info("El rut que agregas es {}", profesor.getRun());
                 profesor = profesorRepository.save(profesor);
                 logger.info("El profesor creado es: {}", profesor);
 

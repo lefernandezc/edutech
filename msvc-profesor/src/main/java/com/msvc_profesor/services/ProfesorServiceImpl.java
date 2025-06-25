@@ -18,7 +18,7 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @Service
-public class ProfesorServiceImpl implements ProfesorService{
+public class ProfesorServiceImpl implements ProfesorService {
     @Autowired
     private ProfesorRepository profesorRepository;
 
@@ -31,19 +31,18 @@ public class ProfesorServiceImpl implements ProfesorService{
     @Override
     public Profesor findById(Long id) {
         return this.profesorRepository.findById(id).orElseThrow(
-                () -> new ProfesorException("El profesor con id "+id+"no se encuentra en la base de datos ")
+                () -> new ProfesorException("El profesor con id " + id + "no se encuentra en la base de datos ")
         );
     }
 
     @Override
     public Profesor save(Profesor profesor) {
-
-        if (this.profesorRepository.findByNombre(profesor.getNombre()).isPresent()) {
-            throw new ProfesorException("El nombre de profesor:" + profesor.getNombre() + "ya existe en la base de datos");
+        if (this.profesorRepository.findByIdProfesor(profesor.getIdProfesor()).isPresent()) {
+            throw new ProfesorException("El profesor con id:" + profesor.getIdProfesor()
+                    + "ya existe en la base de datos");
         }
-        return this.profesorRepository.save(profesor);
+        return profesorRepository.save(profesor);
     }
-    }
-
+}
 
 
