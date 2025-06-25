@@ -10,7 +10,7 @@ import lombok.*;
 @Table(name= "Curso")
 @Getter @Setter @ToString
 @NoArgsConstructor @AllArgsConstructor
-@Schema(description = "Entidad que representa una inscripcion")
+@Schema(description = "Entidad que representa un curso")
 public class Curso {
 
     @Id

@@ -3,7 +3,7 @@ package com.msvc_inscripcion.Controllers;
 import com.msvc_inscripcion.Assemblers.CursoModelAssembler;
 import com.msvc_inscripcion.Dtos.ErrorDTO;
 import com.msvc_inscripcion.Models.Entities.Curso;
-import com.msvc_inscripcion.Services.InscripcionService;
+import com.msvc_inscripcion.Services.CursoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -34,7 +34,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class CursoControllerV2 {
 
     @Autowired
-    private InscripcionService inscripcionService;
+    private CursoService cursoService;
 
     @Autowired
     private CursoModelAssembler cursoModelAssembler;
@@ -52,7 +52,7 @@ public class CursoControllerV2 {
             )
     })
     public ResponseEntity<CollectionModel<EntityModel<Curso>>> findAll(){
-        List<EntityModel<Curso>> entityModels = this.inscripcionService.findAll()
+        List<EntityModel<Curso>> entityModels = this.cursoService.findAll()
                 .stream()
                 .map(cursoModelAssembler::toModel)
                 .toList();
@@ -92,7 +92,7 @@ public class CursoControllerV2 {
     })
     public ResponseEntity<EntityModel<Curso>> findById(@PathVariable Long id){
         EntityModel<Curso> entityModel = this.cursoModelAssembler.toModel(
-                this.inscripcionService.findById(id)
+                this.cursoService.findById(id)
         );
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -130,7 +130,7 @@ public class CursoControllerV2 {
             )
     )
     public ResponseEntity<EntityModel<Curso>> save(@Valid @RequestBody Curso curso){
-        Curso inscripNew = this.inscripcionService.save(curso);
+        Curso inscripNew = this.cursoService.save(curso);
         EntityModel<Curso> entityModel = this.cursoModelAssembler.toModel(inscripNew);
 
         return ResponseEntity

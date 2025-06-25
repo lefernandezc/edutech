@@ -2,7 +2,7 @@ package com.msvc_inscripcion.Controllers;
 
 import com.msvc_inscripcion.Dtos.ErrorDTO;
 import com.msvc_inscripcion.Models.Entities.Curso;
-import com.msvc_inscripcion.Services.InscripcionService;
+import com.msvc_inscripcion.Services.CursoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -27,50 +27,50 @@ import java.util.List;
 public class CursoController {
 
     @Autowired
-    private InscripcionService inscripcionService;
+    private CursoService cursoService;
 
     @GetMapping
     @Operation(
-            summary = "Devuelve todas las inscripciones",
-            description = "Este metodo debe retornar un List de Inscripciones, en caso de que no encuentre nada retorna una List vacia"
+            summary = "Devuelve todas los cursos",
+            description = "Este metodo debe retornar un List de Curso, en caso de que no encuentre nada retorna una List vacia"
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Se retornan todas las inscripciones ok")
+            @ApiResponse(responseCode = "200", description = "Se retornan todas los cursos")
     })
     public ResponseEntity<List<Curso>> findAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(this.inscripcionService.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(this.cursoService.findAll());
     }
 
     @GetMapping("/{id}")
     @Operation(
-            summary = "Devuelve una inscripcion con respecto a su id",
-            description = "Este metodo debe retornar una Inscripcion cuando es consultado mediante su id"
+            summary = "Devuelve un curso con respecto a su id",
+            description = "Este metodo debe retornar un Curso cuando es consultado mediante su id"
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Se retornan la inscripcion encontrada"),
-            @ApiResponse(responseCode = "404", description = "Error - Inscripcion con ID no exite", content = @Content(
+            @ApiResponse(responseCode = "200", description = "Se retornan el curso encontrada"),
+            @ApiResponse(responseCode = "404", description = "Error - Curso con ID no exite", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = ErrorDTO.class)
 
             ))
     })
     @Parameters(value = {
-            @Parameter(name = "id", description = "Este es el id unico de una inscripcion", required = true)
+            @Parameter(name = "id", description = "Este es el id unico de un curso", required = true)
     })
     public ResponseEntity<Curso> findById(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(this.inscripcionService.findById(id));
+        return ResponseEntity.status(HttpStatus.OK).body(this.cursoService.findById(id));
     }
 
     @PostMapping
     @Operation(
-            summary = "Guarda una inscripcion",
-            description = "Cons este metodo podemos enviar los datos mediante un body y realizar el guardado"
+            summary = "Guarda un curso",
+            description = "Con este metodo podemos enviar los datos mediante un body y realizar el guardado"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Guardado exitoso"),
             @ApiResponse(
                     responseCode = "409",
-                    description = "La inscripcion guardada ya se encuentra en la base de datos",
+                    description = "El curso ya se encuentra en la base de datos",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorDTO.class)
@@ -79,14 +79,14 @@ public class CursoController {
     })
     //se importa desde swagger para no interferir con el otro request body
     @io.swagger.v3.oas.annotations.parameters.RequestBody(
-            description = "Inscripcion a crear",
+            description = "Curso a crear",
             content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = Curso.class)
             )
     )
     public ResponseEntity<Curso> save(@RequestBody @Valid Curso curso){
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.inscripcionService.save(curso));
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.cursoService.save(curso));
     }
 
 }

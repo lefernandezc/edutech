@@ -1,7 +1,7 @@
 package com.msvc_inscripcion.Init;
 
 import com.msvc_inscripcion.Models.Entities.Curso;
-import com.msvc_inscripcion.Repositories.InscripcionRepository;
+import com.msvc_inscripcion.Repositories.CursoRepository;
 import net.datafaker.Faker;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +19,19 @@ public class LoadDataBase implements CommandLineRunner {
     private static final Logger log = LoggerFactory.getLogger(LoadDataBase.class);
 
     @Autowired
-    InscripcionRepository inscripcionRepository;
+    CursoRepository cursoRepository;
 
     @Override
     public void run(String... args) throws Exception{
         Faker faker = new Faker(Locale.of("es","CL"));
 
-        if(inscripcionRepository.count() == 0){
+        if(cursoRepository.count() == 0){
             for(int i=0;i<100;i++){
                 Curso curso = new Curso();
 
                 curso.setAsignatura(faker.toString());
 
-                curso = inscripcionRepository.save(curso);
+                curso = cursoRepository.save(curso);
                 log.info("La inscripcion creada es {}", curso);
             }
         }
