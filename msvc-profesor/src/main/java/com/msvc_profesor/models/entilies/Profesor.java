@@ -30,9 +30,5 @@ public class Profesor {
     @NotBlank(message = "El correo no puede estar vacio")
     private String correo;
 
-    @Column
-    @NotBlank(message = "La asignatura no puede estar vacio")
-    private String asignatura;
-
 
 }
