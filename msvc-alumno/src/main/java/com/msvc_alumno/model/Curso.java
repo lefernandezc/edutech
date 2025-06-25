@@ -5,10 +5,10 @@ import lombok.*;
 
 @Getter @Setter @ToString
 @AllArgsConstructor @NoArgsConstructor
-public class Inscripcion {
+public class Curso {
 
-    private Long idInscripcion;
-    private Integer costoInscripcion;
+    private Long idCurso;
+    private Integer costoCurso;
     private Long idAlumno;
 
 }

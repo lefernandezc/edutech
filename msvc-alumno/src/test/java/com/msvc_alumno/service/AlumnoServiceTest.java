@@ -1,13 +1,10 @@
 package com.msvc_alumno.service;
 
-import com.msvc_alumno.clients.IncripcionClientRest;
-import com.msvc_alumno.dtos.AlumnoDTO;
-import com.msvc_alumno.dtos.InscripcionDTO;
-import com.msvc_alumno.model.Inscripcion;
+import com.msvc_alumno.clients.CursoClientRest;
+import com.msvc_alumno.model.Curso;
 import com.msvc_alumno.model.entites.Alumno;
 import com.msvc_alumno.repositories.AlumnoRepository;
 import com.msvc_alumno.services.AlumnoServiceImpl;
-import net.datafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,10 +12,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -31,18 +24,18 @@ public class AlumnoServiceTest {
     private AlumnoRepository alumnoRepository;
 
     @Mock
-    private IncripcionClientRest incripcionClientRest;
+    private CursoClientRest cursoClientRest;
 
     @InjectMocks
     private AlumnoServiceImpl alumnoService;
 
-    private Inscripcion inscripcionTest;
+    private Curso cursoTest;
 
     private Alumno alumnoTest;
 
     @BeforeEach
     public void setUp(){
-        inscripcionTest = new Inscripcion(
+        cursoTest = new Curso(
                 1L,200000,1L
         );
         alumnoTest = new Alumno(
@@ -58,7 +51,7 @@ public class AlumnoServiceTest {
     @Test
     @DisplayName("Deve crear un alumno")
     public void shouldCreateAlumno(){
-        when(incripcionClientRest.findById(1L)).thenReturn(this.inscripcionTest);
+        when(cursoClientRest.findById(1L)).thenReturn(this.cursoTest);
         when(alumnoRepository.save(any(Alumno.class))).thenReturn(this.alumnoTest);
 
         Alumno result = alumnoService.save(this.alumnoTest);
@@ -66,7 +59,7 @@ public class AlumnoServiceTest {
         assertThat(result).isNotNull();
         assertThat(result).isEqualTo(this.alumnoTest);
 
-        verify(incripcionClientRest,times(1)).findById(1L);
+        verify(cursoClientRest,times(1)).findById(1L);
         verify(alumnoRepository,times(1)).save(any(Alumno.class));
 
     }

@@ -1,10 +1,10 @@
 package com.msvc_alumno.services;
 
-import com.msvc_alumno.clients.IncripcionClientRest;
+import com.msvc_alumno.clients.CursoClientRest;
 import com.msvc_alumno.dtos.AlumnoDTO;
-import com.msvc_alumno.dtos.InscripcionDTO;
+import com.msvc_alumno.dtos.CursoDTO;
 import com.msvc_alumno.exceptions.AlumnoException;
-import com.msvc_alumno.model.Inscripcion;
+import com.msvc_alumno.model.Curso;
 import com.msvc_alumno.model.entites.Alumno;
 import com.msvc_alumno.repositories.AlumnoRepository;
 import feign.FeignException;
@@ -21,22 +21,22 @@ public class AlumnoServiceImpl implements AlumnoService {
 
 
     @Autowired
-    private IncripcionClientRest incripcionClientRest;
+    private CursoClientRest cursoClientRest;
     @Override
     public List<AlumnoDTO> findAll() {
         return this.alumnoRepository.findAll().stream().map(alumno -> {
-            Inscripcion inscripcion =null;
+            Curso curso =null;
             try{
-                inscripcion = this.incripcionClientRest.findById(alumno.getIdInscripcion());
+                curso = this.cursoClientRest.findById(alumno.getIdInscripcion());
             }catch (FeignException ex){
                 throw new AlumnoException("El alumno buscado no existe");
             }
 
-            InscripcionDTO inscripcionDTO = new InscripcionDTO();
-            inscripcionDTO.setCostoInscripcion(inscripcion.getCostoInscripcion());
+            CursoDTO cursoDTO = new CursoDTO();
+            cursoDTO.setCostoCurso(curso.getCostoCurso());
 
             AlumnoDTO alumnoDTO = new AlumnoDTO();
-            alumnoDTO.setInscripcion(inscripcionDTO);
+            alumnoDTO.setCurso(cursoDTO);
 
             return alumnoDTO;
         }).toList();
@@ -52,14 +52,14 @@ public class AlumnoServiceImpl implements AlumnoService {
     @Override
     public Alumno save(Alumno alumno) {
         try{
-            Inscripcion inscripcion = this.incripcionClientRest.findById(alumno.getIdInscripcion());
+            Curso curso = this.cursoClientRest.findById(alumno.getIdInscripcion());
         }catch (FeignException ex){
             throw new AlumnoException("existe problema con la asocion inscripcion");
         }
         return alumnoRepository.save(alumno);
     }
     @Override
-    public List<Alumno> findByInscripcionId(Long inscripcionId){return this.alumnoRepository.findByIdInscripcion(inscripcionId);}
+    public List<Alumno> findByCursoId(Long cursoId){return this.alumnoRepository.findByIdCurso(cursoId);}
 
 
 }

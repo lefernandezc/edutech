@@ -7,8 +7,8 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class InscripcionDTO {
+public class CursoDTO {
 
-    private Integer costoInscripcion;
+    private Integer costoCurso;
 
 }

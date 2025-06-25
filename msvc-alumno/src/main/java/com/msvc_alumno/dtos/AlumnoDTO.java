@@ -9,13 +9,13 @@ public class AlumnoDTO {
     private String run;
     private String correo;
     private String nombre;
-    private InscripcionDTO inscripcion;
+    private CursoDTO curso;
 
     public Long getIdAlumno() {
         String run;
         String correo;
         String nombre;
-        InscripcionDTO inscripcion;
+        CursoDTO curso;
         return 0L;
     }
 }
