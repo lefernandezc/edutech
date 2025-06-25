@@ -9,6 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 public class CursoDTO {
 
-    private Integer costoCurso;
+    private String asignatura;
 
 }
