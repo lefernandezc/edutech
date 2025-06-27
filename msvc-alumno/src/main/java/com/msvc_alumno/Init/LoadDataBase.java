@@ -36,7 +36,7 @@ public class LoadDataBase implements CommandLineRunner {
                 alumno.setNombre(faker.name().fullName());
                 alumno.setRun(restante+"-"+ultimo);
                 alumno.setCorreo(faker.internet().emailAddress());
-                alumno.setIdInscripcion(faker.number().randomNumber());
+                alumno.setIdCurso(faker.number().randomNumber());
 
                 alumno = alumnoRepository.save(alumno);
                 log.info("El alumno creado es {}", alumno);

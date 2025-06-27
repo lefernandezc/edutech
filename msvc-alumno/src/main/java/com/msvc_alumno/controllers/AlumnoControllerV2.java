@@ -51,15 +51,17 @@ public class AlumnoControllerV2 {
                     )
             )
     })
-    public ResponseEntity<CollectionModel<EntityModel<AlumnoDTO>>> findAll(){
-        List<EntityModel<AlumnoDTO>> entityModels = this.alumnoService.findAll()
+    public ResponseEntity<CollectionModel<EntityModel<Alumno>>> findAll(){
+        List<EntityModel<Alumno>> entityModels = this.alumnoService.findAll()
                 .stream()
-                .map((AlumnoDTO entity) -> alumnoModelAssembler.toModel(entity))
+                .map(alumnoModelAssembler::toModel)
                 .toList();
-        CollectionModel<EntityModel<AlumnoDTO>> collectionModel = CollectionModel.of(
-                entityModels,
-                linkTo(methodOn(AlumnoControllerV2.class).findAll()).withSelfRel()
-        );
+
+                CollectionModel<EntityModel<Alumno>> collectionModel = CollectionModel.of(
+                        entityModels,
+                        linkTo(methodOn(AlumnoControllerV2.class).findAll()).withSelfRel()
+                );
+
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(collectionModel);

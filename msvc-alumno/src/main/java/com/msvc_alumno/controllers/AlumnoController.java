@@ -16,13 +16,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/alumno")
 @Validated
+
 public class AlumnoController {
 
     @Autowired
     private AlumnoService alumnoService;
 
     @GetMapping
-    public ResponseEntity<List<AlumnoDTO>> findAll() {
+    public ResponseEntity<List<Alumno>> findAll() {
         return ResponseEntity.status(HttpStatus.OK).body(this.alumnoService.findAll());
     }
 

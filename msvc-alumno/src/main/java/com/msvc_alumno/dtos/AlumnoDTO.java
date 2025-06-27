@@ -11,11 +11,5 @@ public class AlumnoDTO {
     private String nombre;
     private CursoDTO curso;
 
-    public Long getIdAlumno() {
-        String run;
-        String correo;
-        String nombre;
-        CursoDTO curso;
-        return 0L;
-    }
+
 }

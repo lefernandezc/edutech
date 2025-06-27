@@ -10,5 +10,6 @@ import lombok.*;
 public class CursoDTO {
 
     private String asignatura;
+    private Integer costoCurso;
 
 }

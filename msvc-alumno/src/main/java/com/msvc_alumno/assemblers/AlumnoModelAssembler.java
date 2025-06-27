@@ -12,7 +12,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class AlumnoModelAssembler implements RepresentationModelAssembler<Alumno,EntityModel<Alumno>>{
+public class AlumnoModelAssembler implements RepresentationModelAssembler<Alumno,EntityModel<Alumno>> {
     @Override
     public EntityModel<Alumno> toModel(Alumno entity) {
         return EntityModel.of(
@@ -24,11 +24,4 @@ public class AlumnoModelAssembler implements RepresentationModelAssembler<Alumno
 
 
     }
-
-    public EntityModel<AlumnoDTO> toModel(AlumnoDTO entity) {
-        return EntityModel.of(
-                entity,
-                linkTo(methodOn(AlumnoControllerV2.class).findById(entity.getIdAlumno())).withSelfRel(),
-                linkTo(methodOn(AlumnoControllerV2.class).findAll()).withRel("Alumno"))
-    ;}
 }

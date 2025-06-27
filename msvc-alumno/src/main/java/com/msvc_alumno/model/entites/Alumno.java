@@ -31,7 +31,7 @@ public class Alumno {
 
     @Column(name = "id_inscripcion", nullable = false)
     @NotNull(message = "El campo de id_inscripcion no puede estar vacio")
-    private Long idInscripcion;
+    private Long idCurso;
 
 
 

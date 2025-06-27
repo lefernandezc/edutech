@@ -23,11 +23,11 @@ public class AlumnoServiceImpl implements AlumnoService {
     @Autowired
     private CursoClientRest cursoClientRest;
     @Override
-    public List<AlumnoDTO> findAll() {
+    public List<Alumno> findAll() {
         return this.alumnoRepository.findAll().stream().map(alumno -> {
             Curso curso =null;
             try{
-                curso = this.cursoClientRest.findById(alumno.getIdInscripcion());
+                curso = this.cursoClientRest.findById(alumno.getIdCurso());
             }catch (FeignException ex){
                 throw new AlumnoException("El alumno buscado no existe");
             }
@@ -38,7 +38,7 @@ public class AlumnoServiceImpl implements AlumnoService {
             AlumnoDTO alumnoDTO = new AlumnoDTO();
             alumnoDTO.setCurso(cursoDTO);
 
-            return alumnoDTO;
+            return alumno;
         }).toList();
     }
 
@@ -52,9 +52,9 @@ public class AlumnoServiceImpl implements AlumnoService {
     @Override
     public Alumno save(Alumno alumno) {
         try{
-            Curso curso = this.cursoClientRest.findById(alumno.getIdInscripcion());
+            Curso curso = this.cursoClientRest.findById(alumno.getIdCurso());
         }catch (FeignException ex){
-            throw new AlumnoException("existe problema con la asocion inscripcion");
+            throw new AlumnoException("existe problema con la asocion Curso");
         }
         return alumnoRepository.save(alumno);
     }
