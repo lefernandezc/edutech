@@ -134,7 +134,7 @@ public class CursoControllerV2 {
         EntityModel<Curso> entityModel = this.cursoModelAssembler.toModel(inscripNew);
 
         return ResponseEntity
-                .created(linkTo(methodOn(CursoControllerV2.class).findById(inscripNew.getIdInscripcion())).toUri())
+                .created(linkTo(methodOn(CursoControllerV2.class).findById(inscripNew.getIdCurso())).toUri())
                 .body(entityModel);
     }
 

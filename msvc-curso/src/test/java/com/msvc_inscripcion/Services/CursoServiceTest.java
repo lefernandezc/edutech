@@ -26,16 +26,16 @@ public class CursoServiceTest {
     private CursoRepository cursoRepository;
 
     @InjectMocks
-    private CursoServiceImpl inscripcionService;
+    private CursoServiceImpl cursoService;
 
     private Curso cursoPrueba;
 
-    private List<Curso> inscripciones = new ArrayList<>();
+    private List<Curso> curso = new ArrayList<>();
 
     @BeforeEach
     public void setUp() {
         this.cursoPrueba = new Curso(
-                "10000"
+                "Leanguaje"
         );
         Faker faker = new Faker(Locale.of("es", "CL"));
         for (int i = 0; i < 100; i++) {
@@ -43,20 +43,20 @@ public class CursoServiceTest {
             curso.setIdCurso((long) i);
             curso.setAsignatura(faker.toString());
 
-            this.inscripciones.add(curso);
+            this.curso.add(curso);
         }
-        this.cursoPrueba = new Curso(1L, "10000", 1L);
+        this.cursoPrueba = new Curso(1L, "Lenguaje", 1L);
     }
 
     @Test
-    @DisplayName("Debo listar todas las inscripciones")
-    public void shouldFindAllInscripciones() {
+    @DisplayName("Debo listar todas los cursos")
+    public void shouldFindAllCurso() {
 
-        List<Curso> inscripciones = this.inscripciones;
-        inscripciones.add(cursoPrueba);
-        when(cursoRepository.findAll()).thenReturn(inscripciones);
+        List<Curso> curso = this.curso;
+        curso.add(cursoPrueba);
+        when(cursoRepository.findAll()).thenReturn(curso);
 
-        List<Curso> result = inscripcionService.findAll();
+        List<Curso> result = cursoService.findAll();
 
         assertThat(result).hasSize(101);
         assertThat(result).contains(cursoPrueba);
@@ -65,34 +65,34 @@ public class CursoServiceTest {
     }
 
     @Test
-    @DisplayName("Debe buscar una inscripcion")
+    @DisplayName("Debe buscar un curso")
     public void shouldFindById() {
         when(cursoRepository.findById(Long.valueOf(1L))).thenReturn(Optional.of(cursoPrueba));
 
-        Curso result = inscripcionService.findById(Long.valueOf(1L));
+        Curso result = cursoService.findById(Long.valueOf(1L));
         assertThat(result).isNotNull();
         assertThat(result).isEqualTo(cursoPrueba);
         verify(cursoRepository, times(1)).findById(Long.valueOf(1L));
     }
 
     @Test
-    @DisplayName("Debe buscar una inscripcion id que no exista")
-    public void shouldNotFindInscripcionId() {
+    @DisplayName("Debe buscar un curso con id que no exista")
+    public void shouldNotFindCursoId() {
         Long idInexistente = (Long) 999L;
         when(cursoRepository.findById(idInexistente)).thenReturn(Optional.empty());
         assertThatThrownBy(()->{
-            inscripcionService.findById(idInexistente);
+            cursoService.findById(idInexistente);
         }).isInstanceOf(CursoException.class)
-                .hasMessageContaining("La inscripcion con id"+
+                .hasMessageContaining("el curso con id"+
                         idInexistente+"no se encuentra en la base de datos");
         verify(cursoRepository, times(1)).findById(idInexistente);
     }
 
     @Test
-    @DisplayName("Debe guardar una nueva inscripcion")
-    public void shouldSaveInscripcion(){
+    @DisplayName("Debe guardar un nuevo curso")
+    public void shouldSaveCurso(){
         when(cursoRepository.save(any(Curso.class))).thenReturn(cursoPrueba);
-        Curso result = inscripcionService.save(cursoPrueba);
+        Curso result = cursoService.save(cursoPrueba);
         assertThat(result).isNotNull();
         assertThat(result).isEqualTo(cursoPrueba);
         verify(cursoRepository, times(1)).save(any(Curso.class));
