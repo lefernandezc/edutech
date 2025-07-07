@@ -21,7 +21,7 @@ public class NotasModelAssembler implements RepresentationModelAssembler<Notas, 
                 linkTo(methodOn(NotasControllerV2.class).findById(entity.getIdNotas())).withSelfRel(),
                 linkTo(methodOn(NotasControllerV2.class).findAll()).withRel("Notas"),
                 Link.of("http://localhost:8001/api/v1/alumno/"+ entity.getIdNotas()).withRel("alumno"),
-                Link.of("http://localhost:8004/api/v1/profesor/"+ entity.getIdNotas()).withRel("profesor")
+                Link.of("http://localhost:8002/api/v1/curso/"+ entity.getIdNotas()).withRel("curso")
         );
     }
 }

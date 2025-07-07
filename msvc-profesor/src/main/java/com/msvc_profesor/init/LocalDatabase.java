@@ -29,7 +29,6 @@ public class LocalDatabase implements CommandLineRunner {
         if(profesorRepository.count()==0){
             for(int i=0;i<1000;i++){
                 Profesor profesor = new Profesor();
-                profesor.setAsignatura(faker.careProvider().medicalProfession());
                 profesor.setNombre(faker.name().fullName());
                 profesor.setCorreo("caceressimon70@gmail.com");
 

@@ -28,7 +28,6 @@ public class Curso {
     @NotNull(message = "El campo de id_profesor no puede estar vacio")
     private Long idProfesor;
 
-
     public Curso (String asignatura){
         this.asignatura = asignatura;
     }

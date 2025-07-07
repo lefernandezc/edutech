@@ -7,7 +7,8 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class AlumnoDTO {
+public class ProfesorDTO {
+
     private String run;
     private String correo;
     private String nombre;

@@ -42,7 +42,6 @@ public class ProfesorServiceTest {
         for(int i=0;i<100;i++){
             Profesor profesor = new Profesor();
             profesor.setIdProfesor((long) i+1);
-            profesor.setAsignatura(faker.careProvider().medicalProfession());
             profesor.setNombre(faker.name().fullName());
 
             String numeroString = faker.idNumber().valid().replaceAll("-","");

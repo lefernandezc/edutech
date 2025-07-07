@@ -1,6 +1,6 @@
-package com.msvc_notas.Clients;
+package com.msvc_inscripcion.Clients;
 
-import com.msvc_notas.Models.Profesor;
+import com.msvc_inscripcion.Models.Profesor;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,5 +10,4 @@ public interface ProfesorClientRest {
 
     @GetMapping("/{id}")
     Profesor findById(@PathVariable Long id);
-
 }

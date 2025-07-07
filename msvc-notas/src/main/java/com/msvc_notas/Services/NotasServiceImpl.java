@@ -54,7 +54,6 @@ public class NotasServiceImpl implements NotasService {
             profesorDTO.setNombre(profesor.getNombre());
             profesorDTO.setRun(profesor.getRun());
             profesorDTO.setCorreo(profesor.getCorreo());
-            profesorDTO.setAsignatura(profesor.getAsignatura());
 
             NotasDTO notasDTO = new NotasDTO();
             notasDTO.setAlumno(alumnoDTO);

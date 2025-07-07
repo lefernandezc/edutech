@@ -76,15 +76,16 @@ public class CursoServiceTest {
     }
 
     @Test
-    @DisplayName("Debe buscar un curso con id que no exista")
+    @DisplayName("Debe lanzar excepción cuando el curso no existe")
     public void shouldNotFindCursoId() {
-        Long idInexistente = (Long) 999L;
+        Long idInexistente = 568L;
         when(cursoRepository.findById(idInexistente)).thenReturn(Optional.empty());
-        assertThatThrownBy(()->{
+
+        assertThatThrownBy(() -> {
             cursoService.findById(idInexistente);
         }).isInstanceOf(CursoException.class)
-                .hasMessageContaining("el curso con id"+
-                        idInexistente+"no se encuentra en la base de datos");
+                .hasMessage("El curso con id: " + idInexistente + " no se encuentra en la base de datos");
+
         verify(cursoRepository, times(1)).findById(idInexistente);
     }
 

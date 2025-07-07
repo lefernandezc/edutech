@@ -1,5 +1,6 @@
 package com.msvc_inscripcion.Controllers;
 
+import com.msvc_inscripcion.Dtos.CursoDTO;
 import com.msvc_inscripcion.Dtos.ErrorDTO;
 import com.msvc_inscripcion.Models.Entities.Curso;
 import com.msvc_inscripcion.Services.CursoService;
@@ -87,6 +88,11 @@ public class CursoController {
     )
     public ResponseEntity<Curso> save(@RequestBody @Valid Curso curso){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.cursoService.save(curso));
+    }
+
+    @GetMapping("/{id}/profesor")
+    public ResponseEntity<List<CursoDTO>> findByProfesorId(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(this.cursoService.findByProfesorId(id));
     }
 
 }

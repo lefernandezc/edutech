@@ -29,10 +29,11 @@ public class LoadDataBase implements CommandLineRunner {
             for(int i=0;i<100;i++){
                 Curso curso = new Curso();
 
-                curso.setAsignatura(faker.toString());
+                curso.setAsignatura(faker.educator().course());
+                curso.setIdProfesor(faker.number().numberBetween(1L, 100L ));
 
                 curso = cursoRepository.save(curso);
-                log.info("La inscripcion creada es {}", curso);
+                log.info("El curso creado es {}", curso);
             }
         }
     }

@@ -15,8 +15,8 @@ public class SwaggerConfig {
         contact.setEmail("le.fernandezc@duocuc.cl");
         return new OpenAPI()
                 .info(new Info()
-                        .title("Api Restfull - MSVC - Inscripcion")
-                        .description("Esta es la api dedicada al msvc de inscripcion")
+                        .title("Api Restfull - MSVC - Curso")
+                        .description("Esta es la api dedicada al msvc de curso")
                         .version("1.0.0")
                         .contact(contact)
                         .summary("esto es una api dentro de un proyecto MSVC")

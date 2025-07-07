@@ -7,6 +7,6 @@ import lombok.*;
 @AllArgsConstructor
 public class CursoDTO {
 
-    private Integer costoInscripcion;
-    private AlumnoDTO alumno;
+    private String asignatura;
+    private ProfesorDTO profesor;
 }
