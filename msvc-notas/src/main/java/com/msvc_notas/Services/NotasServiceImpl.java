@@ -29,7 +29,7 @@ public class NotasServiceImpl implements NotasService {
     private ProfesorClientRest profesorClientRest;
 
     @Override
-    public List<Notas> findAll() {
+    public List<NotasDTO> findAll() {
         return this.notasRepository.findAll().stream().map(notas -> {
             Alumno alumno = null;
             try{

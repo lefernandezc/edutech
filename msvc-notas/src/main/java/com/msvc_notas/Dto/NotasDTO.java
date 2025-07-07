@@ -1,6 +1,7 @@
 package com.msvc_notas.Dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.msvc_notas.Models.Alumno;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -23,5 +24,12 @@ public class NotasDTO {
 
     @Schema(description = "Este es el alumno con la nota",
             implementation = ProfesorDTO.class)
-    private ProfesorDTO profesor;
+    private CursoDTO curso;
+
+    public Long getIdNotas() {
+        Integer nota;
+        AlumnoDTO alumno;
+        ProfesorDTO profesor;
+        return 0L;
+    }
 }

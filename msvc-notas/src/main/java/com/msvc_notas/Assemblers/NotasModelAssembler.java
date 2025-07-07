@@ -24,4 +24,11 @@ public class NotasModelAssembler implements RepresentationModelAssembler<Notas, 
                 Link.of("http://localhost:8002/api/v1/curso/"+ entity.getIdNotas()).withRel("curso")
         );
     }
+    public EntityModel<NotasDTO> toModel(NotasDTO entity){
+        return EntityModel.of(
+                entity,
+                linkTo(methodOn(NotasControllerV2.class).findById(entity.getIdNotas())).withSelfRel(),
+                linkTo(methodOn(NotasControllerV2.class).findAll()).withRel("Notas")
+        );
+    }
 }

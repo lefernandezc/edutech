@@ -1,5 +1,6 @@
 package com.msvc_inscripcion.Services;
 
+import com.msvc_inscripcion.Dtos.CursoDTO;
 import com.msvc_inscripcion.Exceptions.CursoException;
 import com.msvc_inscripcion.Models.Entities.Curso;
 import com.msvc_inscripcion.Repositories.CursoRepository;
@@ -52,14 +53,15 @@ public class CursoServiceTest {
     @DisplayName("Debo listar todas los cursos")
     public void shouldFindAllCurso() {
 
-        List<Curso> curso = this.curso;
+        List<Curso> curso = new ArrayList<>(this.curso);
         curso.add(cursoPrueba);
         when(cursoRepository.findAll()).thenReturn(curso);
 
-        List<Curso> result = cursoService.findAll();
+        List<CursoDTO> result = cursoService.findAll();
 
-        assertThat(result).hasSize(101);
-        assertThat(result).contains(cursoPrueba);
+        assertThat(result).hasSize(this.curso.size()+ 1)
+                        .extracting("idCurso").contains(cursoPrueba.getIdCurso());
+
 
         verify(cursoRepository, times(1)).findAll();
     }

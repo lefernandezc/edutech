@@ -24,7 +24,7 @@ public class CursoServiceImpl implements CursoService {
     private ProfesorClientRest profesorClientRest;
 
     @Override
-    public List<Curso> findAll(){
+    public List<CursoDTO> findAll(){
         return this.cursoRepository.findAll().stream().map(curso -> {
 
             Profesor profesor = null;

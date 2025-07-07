@@ -12,4 +12,6 @@ public class AlumnoDTO {
     private String run;
     private String correo;
     private String nombre;
+
+
 }

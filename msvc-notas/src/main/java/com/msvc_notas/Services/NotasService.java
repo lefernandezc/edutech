@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface NotasService {
 
-    List<Notas> findAll();
+    List<NotasDTO> findAll();
     Notas findById(Long id);
     Notas save (Notas notas);
     List <NotasDTO> findByAlumnoId(Long alumnoId);

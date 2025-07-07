@@ -38,7 +38,7 @@ public class CursoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Se retornan todas los cursos")
     })
-    public ResponseEntity<List<Curso>> findAll(){
+    public ResponseEntity<List<CursoDTO>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(this.cursoService.findAll());
     }
 

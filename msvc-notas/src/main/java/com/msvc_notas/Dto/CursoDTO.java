@@ -1,10 +1,5 @@
-package com.msvc_inscripcion.Dtos;
+package com.msvc_notas.Dto;
 
-import lombok.*;
-
-@Getter @Setter @ToString
-@NoArgsConstructor
-@AllArgsConstructor
 public class CursoDTO {
 
     private String asignatura;

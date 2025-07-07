@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CursoService {
 
-    List<Curso> findAll();
+    List<CursoDTO> findAll();
     Curso findById(Long id);
     Curso save(Curso curso);
     List <CursoDTO> findByProfesorId(Long profesorId);
