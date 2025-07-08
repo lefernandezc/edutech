@@ -31,7 +31,7 @@ public class LoadDataBase implements CommandLineRunner {
 
                 nota.setNota(faker.number().numberBetween(1 , 7 ));
                 nota.setIdAlumno(faker.number().randomNumber());
-                nota.setIdProfesor(faker.number().randomNumber());
+                nota.setIdCurso(faker.number().randomNumber());
 
                 nota = notasRepository.save(nota);
                 log.info("La inscripcion creada es {}", nota);

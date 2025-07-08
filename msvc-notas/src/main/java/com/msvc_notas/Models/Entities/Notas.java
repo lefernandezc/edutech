@@ -26,6 +26,6 @@ public class Notas {
     private Long idAlumno;
 
     @Column(nullable = false)
-    @NotNull(message = "El campo id-alumno no puede ser vacio")
-    private Long idProfesor;
+    @NotNull(message = "El campo id-curso no puede ser vacio")
+    private Long idCurso;
 }

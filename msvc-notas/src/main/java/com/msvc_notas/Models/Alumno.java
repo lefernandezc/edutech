@@ -14,5 +14,4 @@ public class Alumno {
     private String run;
     private String nombre;
     private String correo;
-    private Long idInscripcion;
 }

@@ -11,5 +11,5 @@ public interface NotasService {
     Notas findById(Long id);
     Notas save (Notas notas);
     List <NotasDTO> findByAlumnoId(Long alumnoId);
-    List <NotasDTO> findByProfesorId(Long profesorId);
+    List <NotasDTO> findByCursoId(Long cursoId);
 }

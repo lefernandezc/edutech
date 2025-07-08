@@ -1,10 +1,8 @@
 package com.msvc_notas.Controllers;
 
 
-import com.msvc_notas.Dto.AlumnoDTO;
 import com.msvc_notas.Dto.ErrorDTO;
 import com.msvc_notas.Dto.NotasDTO;
-import com.msvc_notas.Dto.ProfesorDTO;
 import com.msvc_notas.Models.Entities.Notas;
 import com.msvc_notas.Services.NotasService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,7 +36,7 @@ public class NotasController {
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Operacion existosa")
     })
-    public ResponseEntity<List<Notas>> findAll(){
+    public ResponseEntity<List<NotasDTO>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(notasService.findAll());
     }
 
@@ -95,7 +93,7 @@ public class NotasController {
     }
 
     @GetMapping("/{id}/profesor")
-    public ResponseEntity<List<NotasDTO>> findByProfesorId(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(this.notasService.findByProfesorId(id));
+    public ResponseEntity<List<NotasDTO>> findByCursoId(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(this.notasService.findByCursoId(id));
     }
 }

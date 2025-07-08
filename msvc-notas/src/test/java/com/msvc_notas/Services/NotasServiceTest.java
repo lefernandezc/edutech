@@ -43,7 +43,7 @@ public class NotasServiceTest {
             notaCreate.setIdNotas(faker.number().randomNumber());
             notaCreate.setNota(faker.number().numberBetween(1, 10));
             notaCreate.setIdAlumno(faker.number().randomNumber());
-            notaCreate.setIdProfesor(faker.number().randomNumber());
+            notaCreate.setIdCurso(faker.number().randomNumber());
 
             notas.add(notaCreate);
         }
@@ -68,7 +68,7 @@ public class NotasServiceTest {
     }
 
     @Test
-    @DisplayName("Debe buscar un medico")
+    @DisplayName("Debe buscar una nota")
     public void shouldFindById(){
         when(notasRepository.findById(Long.valueOf(1L))).thenReturn(Optional.of(notaPrueba));
 
@@ -80,8 +80,8 @@ public class NotasServiceTest {
     }
 
     @Test
-    @DisplayName("Debe guardar un nuevo medico")
-    public void shouldSaveMedico(){
+    @DisplayName("Debe guardar una nueva nota")
+    public void shouldSaveNotas(){
         when(notasRepository.save(any(Notas.class))).thenReturn(notaPrueba);
         Notas result = notasService.save(notaPrueba);
         org.assertj.core.api.Assertions.assertThat(result).isNotNull();

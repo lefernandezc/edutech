@@ -68,7 +68,7 @@ public class ProfesorServiceTest {
 
     @Test
     @DisplayName("Encontrar por id del profesor")
-    public void shouldFinProfesorById() {
+    public void shouldFindProfesorById() {
         Long idInexistente = 1L;
         when(profesorRepository.findById(idInexistente)).thenReturn(Optional.empty());
         assertThatThrownBy(()->{
