@@ -53,13 +53,13 @@ public class NotasControllerV2 {
                     )
             )
     })
-    public ResponseEntity<CollectionModel<EntityModel<Notas>>> findAll(){
-        List<EntityModel<Notas>> entityModels = this.notasService.findAll()
+    public ResponseEntity<CollectionModel<EntityModel<NotasDTO>>> findAll(){
+        List<EntityModel<NotasDTO>> entityModels = this.notasService.findAll()
                 .stream()
                 .map(notasModelAssembler::toModel)
                 .toList();
 
-        CollectionModel<EntityModel<Notas>> collectionModel = CollectionModel.of(
+        CollectionModel<EntityModel<NotasDTO>> collectionModel = CollectionModel.of(
                 entityModels,
                 linkTo(methodOn(NotasControllerV2.class).findAll()).withSelfRel()
         );

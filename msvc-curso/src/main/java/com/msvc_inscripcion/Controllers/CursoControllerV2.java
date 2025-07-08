@@ -1,6 +1,7 @@
 package com.msvc_inscripcion.Controllers;
 
 import com.msvc_inscripcion.Assemblers.CursoModelAssembler;
+import com.msvc_inscripcion.Dtos.CursoDTO;
 import com.msvc_inscripcion.Dtos.ErrorDTO;
 import com.msvc_inscripcion.Models.Entities.Curso;
 import com.msvc_inscripcion.Services.CursoService;
@@ -51,13 +52,13 @@ public class CursoControllerV2 {
                     )
             )
     })
-    public ResponseEntity<CollectionModel<EntityModel<Curso>>> findAll(){
-        List<EntityModel<Curso>> entityModels = this.cursoService.findAll()
+    public ResponseEntity<CollectionModel<EntityModel<CursoDTO>>> findAll(){
+        List<EntityModel<CursoDTO>> entityModels = this.cursoService.findAll()
                 .stream()
                 .map(cursoModelAssembler::toModel)
                 .toList();
 
-        CollectionModel<EntityModel<Curso>> collectionModel = CollectionModel.of(
+        CollectionModel<EntityModel<CursoDTO>> collectionModel = CollectionModel.of(
                 entityModels,
                 linkTo(methodOn(CursoControllerV2.class).findAll()).withSelfRel()
         );
