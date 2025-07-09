@@ -83,8 +83,8 @@ public class ProfesorServiceTest {
     public void shouldSaveProfesor(){
         when(profesorRepository.save(any(Profesor.class))).thenReturn(this.profesorPrueba);
         Profesor result = profesorService.save(this.profesorPrueba);
-        assertThat(result).isNotNull();
-        assertThat(result).isEqualTo(this.profesorPrueba);
+        org.assertj.core.api.Assertions.assertThat(result).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(result).isEqualTo(profesorPrueba);
         verify(profesorRepository,times(1)).save(any(Profesor.class));
 
     }
