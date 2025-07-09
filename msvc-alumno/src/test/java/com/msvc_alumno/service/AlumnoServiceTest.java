@@ -13,6 +13,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
@@ -64,6 +66,26 @@ public class AlumnoServiceTest {
 
     }
 
+    @Test
+    @DisplayName("Debe buscar un alumno")
+    public void shouldFindById(){
+        when(alumnoRepository.findById(Long.valueOf(1L))).thenReturn(Optional.of(alumnoTest));
+
+        Alumno result = alumnoService.findById(Long.valueOf(1L));
+        org.assertj.core.api.Assertions.assertThat(result).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(result).isEqualTo(alumnoTest);
+        verify(alumnoRepository, times(1)).findById(Long.valueOf(1L));
+    }
+
+    @Test
+    @DisplayName("Debe guardar los datos alumno")
+    public void shouldSaveAlumno(){
+        when(alumnoRepository.save(any(Alumno.class))).thenReturn(alumnoTest);
+        Alumno result = alumnoService.save(alumnoTest);
+        org.assertj.core.api.Assertions.assertThat(result).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(result).isEqualTo(alumnoTest);
+        verify(alumnoRepository, times(1)).save(any(Alumno.class));
+    }
 
 
 }
