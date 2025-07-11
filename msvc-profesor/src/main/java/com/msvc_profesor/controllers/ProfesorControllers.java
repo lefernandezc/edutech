@@ -2,6 +2,7 @@ package com.msvc_profesor.controllers;
 
 
 import com.msvc_profesor.models.entilies.Profesor;
+import com.msvc_profesor.repositories.ProfesorRepository;
 import com.msvc_profesor.services.ProfesorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -19,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/profesor")
@@ -31,6 +33,9 @@ public class ProfesorControllers {
 
     @Autowired
     private ProfesorService profesorService;
+
+    @Autowired
+    private ProfesorRepository profesorRepository;
 
     @GetMapping
     @Operation(
@@ -111,7 +116,7 @@ public class ProfesorControllers {
     @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Estructura de datos que permite realizar la creacion de profesor",
             content = @Content(
-                    mediaType = "applicacion/json",
+                    mediaType = "application/json",
                     schema = @Schema(implementation = Profesor.class)
             )
     )
@@ -121,4 +126,24 @@ public class ProfesorControllers {
                 .body(this.profesorService.save(profesor));
     }
 
+    @PutMapping("/profesor/{id}")
+    public ResponseEntity<Profesor> updateProfesor(@PathVariable Long id, @RequestBody Profesor profesorDetails){
+        Optional<Profesor> optionalProfesor = profesorRepository.findById(id);
+        if (!optionalProfesor.isPresent()){
+            return ResponseEntity.notFound().build();
+        }
+        Profesor profesor = optionalProfesor.get();
+        profesor.setNombre(profesorDetails.getNombre());
+        Profesor updatedProfesor = profesorRepository.save(profesor);
+        return ResponseEntity.ok(updatedProfesor);
+    }
+
+    @DeleteMapping("/profesor/{id}")
+    public ResponseEntity<Profesor> deleteProfedor(@PathVariable Long id) {
+        if (!profesorRepository.existsById(id)){
+
+        }
+        profesorRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }

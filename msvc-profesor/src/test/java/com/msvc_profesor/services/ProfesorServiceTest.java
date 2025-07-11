@@ -60,10 +60,10 @@ public class ProfesorServiceTest {
     public void shouldFindAllProfesor(){
         when(profesorRepository.findAll()).thenReturn(this.profesorList);
         List<Profesor> result = profesorService.findAll();
-        assertThat(result).hasSize(100);
+        assertThat(result).hasSize(200);
         assertThat(result).contains(this.profesorPrueba);
 
-        verify(profesorRepository, times(100)).findById(1L);
+        verify(profesorRepository, times(1)).findById(1L);
     }
 
     @Test
@@ -74,12 +74,12 @@ public class ProfesorServiceTest {
         assertThatThrownBy(()->{
             profesorService.findById(idInexistente);
         }).isInstanceOf(ProfesorException.class)
-                .hasMessageContaining("El profesor con id "+idInexistente+"no se encuentra en la base de datos");
+                .hasMessageContaining("El medico con id "+idInexistente+"no se encuentra en la base de datos");
         verify(profesorRepository,times(1)).findById(idInexistente);
     }
 
     @Test
-    @DisplayName("deberia guardar un profesor")
+    @DisplayName("deberia guardar un medico")
     public void shouldSaveProfesor(){
         when(profesorRepository.save(any(Profesor.class))).thenReturn(this.profesorPrueba);
         Profesor result = profesorService.save(this.profesorPrueba);

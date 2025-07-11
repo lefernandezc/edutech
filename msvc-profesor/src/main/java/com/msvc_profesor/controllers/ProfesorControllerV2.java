@@ -90,7 +90,7 @@ public class ProfesorControllerV2 {
                     responseCode = "400",
                     description = "Profesor no se  encuentra, con la id suministrada",
                     content = @Content(
-                            mediaType = "applicacion/json",
+                            mediaType = "application/json",
                             schema = @Schema(implementation = Error.class)
                     )
             )
