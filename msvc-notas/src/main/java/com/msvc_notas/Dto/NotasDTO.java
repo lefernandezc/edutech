@@ -30,6 +30,8 @@ public class NotasDTO {
         Integer nota;
         AlumnoDTO alumno;
         ProfesorDTO profesor;
-        return 0L;
+        return 1L;
     }
+
+
 }

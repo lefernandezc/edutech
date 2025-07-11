@@ -1,8 +1,10 @@
 package com.msvc_inscripcion.Services;
 
+import com.msvc_inscripcion.Clients.ProfesorClientRest;
 import com.msvc_inscripcion.Dtos.CursoDTO;
 import com.msvc_inscripcion.Exceptions.CursoException;
 import com.msvc_inscripcion.Models.Entities.Curso;
+import com.msvc_inscripcion.Models.Profesor;
 import com.msvc_inscripcion.Repositories.CursoRepository;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,12 +28,15 @@ public class CursoServiceTest {
     @Mock
     private CursoRepository cursoRepository;
 
+    @Mock
+    private ProfesorClientRest profesorClientRest;
+
     @InjectMocks
     private CursoServiceImpl cursoService;
 
     private Curso cursoPrueba;
 
-    private List<Curso> curso = new ArrayList<>();
+    private List<Curso> cursoList = new ArrayList<>();
 
     @BeforeEach
     public void setUp() {
@@ -44,7 +49,7 @@ public class CursoServiceTest {
             curso.setIdCurso((long) i);
             curso.setAsignatura(faker.toString());
 
-            this.curso.add(curso);
+            this.cursoList.add(curso);
         }
         this.cursoPrueba = new Curso(1L, "Lenguaje", 1L);
     }
@@ -53,17 +58,25 @@ public class CursoServiceTest {
     @DisplayName("Debo listar todas los cursos")
     public void shouldFindAllCurso() {
 
-        List<Curso> curso = new ArrayList<>(this.curso);
+        List<Curso> curso = new ArrayList<>(this.cursoList);
         curso.add(cursoPrueba);
+
+        Profesor profesor = new Profesor();
+        profesor.setNombre("lolo");
+        profesor.setCorreo("a@o");
+        profesor.setRun("101-1");
+
+        when(profesorClientRest.findById(anyLong())).thenReturn(profesor);
         when(cursoRepository.findAll()).thenReturn(curso);
 
         List<CursoDTO> result = cursoService.findAll();
 
-        assertThat(result).hasSize(this.curso.size()+ 1)
-                        .extracting("idCurso").contains(cursoPrueba.getIdCurso());
-
+        assertThat(result).hasSize(this.cursoList.size()+ 1)
+                        .extracting("idCurso")
+                            .contains(cursoPrueba.getIdCurso());
 
         verify(cursoRepository, times(1)).findAll();
+        verify(profesorClientRest, atLeastOnce()).findById(anyLong());
     }
 
     @Test

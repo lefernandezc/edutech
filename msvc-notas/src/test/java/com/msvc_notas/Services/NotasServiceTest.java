@@ -1,6 +1,10 @@
 package com.msvc_notas.Services;
 
+import com.msvc_notas.Clients.AlumnoClientRest;
+import com.msvc_notas.Clients.CursoClientRest;
 import com.msvc_notas.Dto.NotasDTO;
+import com.msvc_notas.Models.Alumno;
+import com.msvc_notas.Models.Curso;
 import com.msvc_notas.Models.Entities.Notas;
 import com.msvc_notas.Repositories.NotasRepository;
 import net.datafaker.Faker;
@@ -26,6 +30,12 @@ public class NotasServiceTest {
     @Mock
     private NotasRepository notasRepository;
 
+    @Mock
+    private AlumnoClientRest alumnoClientRest;
+
+    @Mock
+    private CursoClientRest cursoClientRest;
+
     @InjectMocks
     private NotasServiceImpl notasService;
 
@@ -50,11 +60,22 @@ public class NotasServiceTest {
     }
 
     @Test
-    @DisplayName("Debo listar todas las notas")
+    @DisplayName("Debe listar todas las notas")
     public void shouldFindAllNotas(){
 
         List<Notas> nota = new ArrayList<>(this.notas);
         nota.add(notaPrueba);
+
+        Alumno alumno = new Alumno();
+        alumno.setNombre("Lala");
+        alumno.setRun("1-1");
+        alumno.setCorreo("a@acl");
+
+        Curso curso = new Curso();
+        curso.setAsignatura("mate");
+
+        when(alumnoClientRest.findById(anyLong())).thenReturn(alumno);
+        when(cursoClientRest.findById(anyLong())).thenReturn(curso);
         when(notasRepository.findAll()).thenReturn(nota);
 
         List<NotasDTO> result = notasService.findAll();
@@ -63,8 +84,9 @@ public class NotasServiceTest {
                         .extracting("idNotas")
                                 .contains(notaPrueba.getIdNotas());
 
-
         verify(notasRepository, times(1)).findAll();
+        verify(alumnoClientRest, atLeastOnce()).findById(anyLong());
+        verify(cursoClientRest, atLeastOnce()).findById(anyLong());
     }
 
     @Test
