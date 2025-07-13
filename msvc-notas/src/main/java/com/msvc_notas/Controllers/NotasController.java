@@ -4,6 +4,7 @@ package com.msvc_notas.Controllers;
 import com.msvc_notas.Dto.ErrorDTO;
 import com.msvc_notas.Dto.NotasDTO;
 import com.msvc_notas.Models.Entities.Notas;
+import com.msvc_notas.Repositories.NotasRepository;
 import com.msvc_notas.Services.NotasService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -21,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/notas")
@@ -30,6 +32,9 @@ public class NotasController {
 
     @Autowired
     private NotasService notasService;
+
+    @Autowired
+    private NotasRepository notasRepository;
 
     @GetMapping
     @Operation(summary = "Obtiene todos las notas", description = "Devuele un List de notas en el Body")
@@ -95,5 +100,26 @@ public class NotasController {
     @GetMapping("/{id}/profesor")
     public ResponseEntity<List<NotasDTO>> findByCursoId(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(this.notasService.findByCursoId(id));
+    }
+
+    @PutMapping("/notas/{id}")
+    public ResponseEntity<Notas> updateNotas(@PathVariable Long id, @RequestBody Notas notasDetails){
+        Optional<Notas> optionalNotas = notasRepository.findById(id);
+        if (!optionalNotas.isPresent()){
+            return ResponseEntity.notFound().build();
+        }
+        Notas notas = optionalNotas.get();
+        notas.setNota(notasDetails.getNota());
+        Notas updatedNotas = notasRepository.save(notas);
+        return ResponseEntity.ok(updatedNotas);
+    }
+
+    @DeleteMapping("/notas/{id}")
+    public ResponseEntity<Notas> deleteNotas(@PathVariable Long id) {
+        if (!notasRepository.existsById(id)){
+
+        }
+        notasRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

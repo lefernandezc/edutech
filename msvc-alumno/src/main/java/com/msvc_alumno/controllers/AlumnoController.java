@@ -1,6 +1,5 @@
 package com.msvc_alumno.controllers;
 
-import com.msvc_alumno.dtos.AlumnoDTO;
 import com.msvc_alumno.model.entites.Alumno;
 import com.msvc_alumno.repositories.AlumnoRepository;
 import com.msvc_alumno.services.AlumnoService;
@@ -123,19 +122,19 @@ public class AlumnoController {
                 .body(this.alumnoService.save(alumno));
     }
 
-    @PutMapping("/profesor/{id}")
+    @PutMapping("/alumno/{id}")
     public ResponseEntity<Alumno> updateAlumno(@PathVariable Long id, @RequestBody Alumno alumnoDetails){
-        Optional<Alumno> optionalProfesor = alumnoRepository.findById(id);
-        if (!optionalProfesor.isPresent()){
+        Optional<Alumno> optionalAlumno = alumnoRepository.findById(id);
+        if (!optionalAlumno.isPresent()){
             return ResponseEntity.notFound().build();
         }
-        Alumno alumno = optionalProfesor.get();
+        Alumno alumno = optionalAlumno.get();
         alumno.setNombre(alumnoDetails.getNombre());
         Alumno updatedAlumno = alumnoRepository.save(alumno);
         return ResponseEntity.ok(updatedAlumno);
     }
 
-    @DeleteMapping("/profesor/{id}")
+    @DeleteMapping("/alumno/{id}")
     public ResponseEntity<Alumno> deleteAlumno(@PathVariable Long id) {
         if (!alumnoRepository.existsById(id)){
 

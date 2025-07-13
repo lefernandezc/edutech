@@ -1,8 +1,10 @@
 package com.msvc_inscripcion.Controllers;
 
+import com.msvc_alumno.model.entites.Alumno;
 import com.msvc_inscripcion.Dtos.CursoDTO;
 import com.msvc_inscripcion.Dtos.ErrorDTO;
 import com.msvc_inscripcion.Models.Entities.Curso;
+import com.msvc_inscripcion.Repositories.CursoRepository;
 import com.msvc_inscripcion.Services.CursoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -20,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/inscripcion")
@@ -29,6 +32,9 @@ public class CursoController {
 
     @Autowired
     private CursoService cursoService;
+
+    @Autowired
+    private CursoRepository cursoRepository;
 
     @GetMapping
     @Operation(
@@ -95,4 +101,24 @@ public class CursoController {
         return ResponseEntity.status(HttpStatus.OK).body(this.cursoService.findByProfesorId(id));
     }
 
+    @PutMapping("/curso/{id}")
+    public ResponseEntity<Curso> updateCurso(@PathVariable Long id, @RequestBody Curso cursoDetails){
+        Optional<Curso> optionalCurso = cursoRepository.findById(id);
+        if (!optionalCurso.isPresent()){
+            return ResponseEntity.notFound().build();
+        }
+        Curso curso = optionalCurso.get();
+        curso.setAsignatura(cursoDetails.getAsignatura());
+        Curso updatedCurso = cursoRepository.save(curso);
+        return ResponseEntity.ok(updatedCurso);
+    }
+
+    @DeleteMapping("/curso/{id}")
+    public ResponseEntity<Curso> deleteCurso(@PathVariable Long id) {
+        if (!cursoRepository.existsById(id)){
+
+        }
+        cursoRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
